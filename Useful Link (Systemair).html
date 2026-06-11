@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Systemair Useful Link</title>
+    <style>
+        :root {
+            /* Modernized Systemair Color Palette */
+            --sys-blue-dark: #002543;
+            --sys-blue-mid: #003a6b;
+            --sys-blue-light: #004985;
+            --sys-blue-hover: #005a9e;
+            --bg-color: #f1f5f9; /* Softer, cooler gray background */
+            --container-bg: #FFFFFF;
+            --text-main: #1e293b; /* Deep slate for high readability */
+            --text-muted: #64748b;
+            --border-color: #cbd5e1; 
+            --input-bg: #f8fafc;
+            --highlight-bg: #e0e7ff; /* Soft blue for calculator results */
+            --highlight-border: #a5b4fc;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            margin: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            background: var(--container-bg);
+            width: 100%;
+            max-width: 680px;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 37, 67, 0.05), 0 1px 3px rgba(0,0,0,0.05);
+            border-top: 6px solid var(--sys-blue-light);
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: var(--sys-blue-dark);
+            margin-top: 0;
+            margin-bottom: 8px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.6rem;
+            letter-spacing: -0.5px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        h3 {
+            color: var(--sys-blue-dark);
+            font-size: 1.15rem;
+            margin: 0 0 15px 0;
+            font-weight: 600;
+        }
+
+        /* --- New Highlighted Calculator Section --- */
+        .calc-hero {
+            background: linear-gradient(145deg, #ffffff, #f4f7fb);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 35px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .calc-hero h3 {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 20px;
+            color: var(--sys-blue-mid);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .calc-hero h3::before {
+            content: '⚡';
+            font-size: 1.2rem;
+        }
+
+        .converter-section {
+            margin-bottom: 35px;
+            padding-bottom: 25px;
+            border-bottom: 1px dashed var(--border-color);
+        }
+        
+        .converter-section:last-of-type {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+
+        .section-header {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Standard responsive grid for general sections */
+        .unit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        /* Custom structured grid for the Duct Calculator */
+        .calc-layout-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .span-full {
+            grid-column: 1 / -1; /* Forces the element to stretch across all columns */
+        }
+
+        @media (max-width: 600px) {
+            .calc-layout-grid {
+                grid-template-columns: 1fr; /* Stacks everything safely on mobile */
+            }
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-wrapper label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            transition: color 0.2s;
+        }
+
+        .input-wrapper:focus-within label {
+            color: var(--sys-blue-light);
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 75px 12px 14px; 
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1.05rem;
+            color: var(--text-main);
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+            background-color: var(--input-bg);
+            font-weight: 500;
+        }
+
+        input.input-with-select {
+            padding-right: 110px; 
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--sys-blue-light);
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(0, 73, 133, 0.15);
+        }
+
+        /* Styling for the standout result boxes */
+        input[readonly]#calcResult,
+        input[readonly]#calcRatio {
+            background-color: var(--highlight-bg);
+            border-color: var(--highlight-border);
+            color: var(--sys-blue-dark);
+            font-weight: 700;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        /* Dynamic Dropdowns */
+        .unit-select {
+            position: absolute;
+            right: 38px;
+            top: 36px;
+            color: var(--sys-blue-mid);
+            font-size: 0.85rem;
+            font-weight: 700;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            outline: none;
+            font-family: inherit;
+            padding: 2px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .unit-select:hover, .unit-select:focus {
+            background-color: #e2e8f0;
+            color: var(--sys-blue-dark);
+        }
+
+        /* Highlight box select adjustments */
+        #velUnit {
+            color: var(--sys-blue-dark);
+        }
+        #velUnit:hover {
+            background-color: #c7d2fe;
+        }
+
+        .copy-btn {
+            position: absolute;
+            right: 6px;
+            top: 32px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            opacity: 0.5;
+            transition: all 0.2s;
+            padding: 6px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .copy-btn:hover {
+            opacity: 1;
+            background-color: #e2e8f0;
+            color: var(--sys-blue-dark);
+        }
+
+        .copy-btn:active {
+            transform: scale(0.9);
+        }
+
+        /* --- Custom Links Section Styles --- */
+        .links-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 12px;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            text-align: center;
+            font-family: inherit;
+        }
+
+        .btn-link {
+            background-color: var(--sys-blue-light);
+            color: #FFFFFF;
+            width: 100%;
+            box-sizing: border-box;
+            box-shadow: 0 2px 4px rgba(0, 73, 133, 0.1);
+        }
+
+        .btn-link:hover {
+            background-color: var(--sys-blue-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(0, 73, 133, 0.2);
+        }
+
+        .btn-add {
+            background-color: var(--sys-blue-dark);
+            color: #FFFFFF;
+            width: 100%;
+        }
+
+        .btn-add:hover {
+            background-color: var(--sys-blue-mid);
+        }
+
+        .btn-toggle-manage {
+            background-color: transparent;
+            color: var(--sys-blue-light);
+            border: 2px solid var(--sys-blue-light);
+            padding: 6px 14px;
+            font-size: 0.85rem;
+            border-radius: 20px;
+        }
+
+        .btn-toggle-manage.active {
+            background-color: var(--sys-blue-light);
+            color: #FFFFFF;
+        }
+
+        .btn-clear {
+            background-color: #f8fafc;
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            padding: 6px 16px;
+            font-size: 0.85rem;
+            margin-top: 20px;
+            border-radius: 20px;
+        }
+
+        .btn-clear:hover {
+            background-color: #e2e8f0;
+            color: var(--text-main);
+            border-color: #cbd5e1;
+        }
+
+        .clear-container {
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
+        }
+
+        .link-item {
+            position: relative;
+            display: flex;
+            width: 100%;
+            transition: transform 0.2s;
+        }
+
+        /* Management & Drag-and-Drop Styles */
+        .action-badges {
+            display: none;
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            gap: 4px;
+            z-index: 10;
+        }
+
+        .badge-btn {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: 2px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 11px;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.1s;
+        }
+
+        .badge-btn:hover { transform: scale(1.1); }
+        .edit-badge { background-color: var(--sys-blue-mid); }
+        .del-badge { background-color: #ef4444; } 
+
+        .manage-mode .action-badges {
+            display: flex;
+        }
+
+        .manage-mode .link-item {
+            cursor: grab;
+        }
+        
+        .manage-mode .link-item:active {
+            cursor: grabbing;
+        }
+
+        .manage-mode .btn-link {
+            background-color: #e2e8f0;
+            color: var(--text-muted);
+            border: 1px dashed #94a3b8;
+            pointer-events: none;
+            box-shadow: none;
+        }
+
+        .link-item.dragging {
+            opacity: 0.4;
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="links-header">
+            <h3>Systemair Useful Links</h3>
+            <button class="btn btn-toggle-manage" id="manageToggle" onclick="toggleManageMode()">⚙️ Manage Links</button>
+        </div>
+        
+        <div class="links-grid" id="linksContainer">
+        </div>
+        
+        <button class="btn btn-add" onclick="addNewLink()">+ Add New Link</button>
+    </div>
+
+    <div class="container">
+        <h2>Airflow Calculator</h2>
+        <div class="subtitle">Type in any box to auto-fill corresponding units.</div>
+        
+        <div class="calc-hero">
+            <h3>Duct Velocity Calculator</h3>
+            <div class="calc-layout-grid">
+                
+                <div class="input-wrapper span-full">
+                    <label>Airflow Volume</label>
+                    <input type="text" class="input-with-select" inputmode="decimal" id="calcVol" oninput="calcDuctVelocity()" onblur="formatDynamicInput('calcVol', 'volUnit')" placeholder="0">
+                    <select class="unit-select" id="volUnit" onchange="calcDuctVelocity(); formatDynamicInput('calcVol', 'volUnit')">
+                        <option value="cmh">m&sup3;/h</option>
+                        <option value="cms">m&sup3;/s</option>
+                        <option value="cfm">CFM</option>
+                        <option value="lps">l/s</option>
+                    </select>
+                </div>
+                
+                <div class="input-wrapper">
+                    <label>Duct Width (W)</label>
+                    <input type="text" class="input-with-select" inputmode="decimal" id="calcWidth" oninput="calcDuctVelocity()" onblur="formatDynamicInput('calcWidth', 'dimUnitW')" placeholder="0">
+                    <select class="unit-select" id="dimUnitW" onchange="syncDimUnits('dimUnitW'); calcDuctVelocity(); formatDynamicInput('calcWidth', 'dimUnitW')">
+                        <option value="mm">mm</option>
+                        <option value="inch">inch</option>
+                    </select>
+                </div>
+                
+                <div class="input-wrapper">
+                    <label>Duct Height (H)</label>
+                    <input type="text" class="input-with-select" inputmode="decimal" id="calcHeight" oninput="calcDuctVelocity()" onblur="formatDynamicInput('calcHeight', 'dimUnitH')" placeholder="0">
+                    <select class="unit-select" id="dimUnitH" onchange="syncDimUnits('dimUnitH'); calcDuctVelocity(); formatDynamicInput('calcHeight', 'dimUnitH')">
+                        <option value="mm">mm</option>
+                        <option value="inch">inch</option>
+                    </select>
+                </div>
+
+                <div class="input-wrapper">
+                    <label>Duct Ratio (Max:Min)</label>
+                    <input type="text" id="calcRatio" readonly placeholder="1 : 1">
+                </div>
+                
+                <div class="input-wrapper span-full">
+                    <label>Internal Velocity</label>
+                    <input type="text" class="input-with-select" id="calcResult" readonly placeholder="0">
+                    <select class="unit-select" id="velUnit" onchange="calcDuctVelocity()">
+                        <option value="ms">m/s</option>
+                        <option value="fpm">FPM</option>
+                    </select>
+                    <button class="copy-btn" onclick="copyValue('calcResult', this)" title="Copy value">📋</button>
+                </div>
+
+            </div>
+            <div class="clear-container">
+                <button class="btn btn-clear" onclick="clearCalculator()">Clear</button>
+            </div>
+        </div>
+
+        <h2 style="font-size: 1.4rem; margin-bottom: 25px;">Unit Converter</h2>
+
+        <div class="converter-section">
+            <h3 class="section-header">Airflow Volume</h3>
+            <div class="unit-grid">
+                <div class="input-wrapper">
+                    <label>Cubic Meter / Hour [m&sup3;/h]</label>
+                    <input type="text" inputmode="decimal" id="cmh" oninput="syncAirflow('cmh')" onblur="formatActive('cmh')" placeholder="0">
+                    <button class="copy-btn" onclick="copyValue('cmh', this)" title="Copy value">📋</button>
+                </div>
+                <div class="input-wrapper">
+                    <label>Cubic Meter / Sec [m&sup3;/s]</label>
+                    <input type="text" inputmode="decimal" id="cms" oninput="syncAirflow('cms')" onblur="formatActive('cms')" placeholder="0">
+                    <button class="copy-btn" onclick="copyValue('cms', this)" title="Copy value">📋</button>
+                </div>
+                <div class="input-wrapper">
+                    <label>Liters / Sec [l/s]</label>
+                    <input type="text" inputmode="decimal" id="lps" oninput="syncAirflow('lps')" onblur="formatActive('lps')" placeholder="0">
+                    <button class="copy-btn" onclick="copyValue('lps', this)" title="Copy value">📋</button>
+                </div>
+                <div class="input-wrapper">
+                    <label>Cubic Feet / Min [CFM]</label>
+                    <input type="text" inputmode="decimal" id="cfm" oninput="syncAirflow('cfm')" onblur="formatActive('cfm')" placeholder="0">
+                    <button class="copy-btn" onclick="copyValue('cfm', this)" title="Copy value">📋</button>
+                </div>
+                <div class="input-wrapper">
+                    <label>Cubic Feet / Hour [CFH]</label>
+                    <input type="text" inputmode="decimal" id="cfh" oninput="syncAirflow('cfh')" onblur="formatActive('cfh')" placeholder="0">
+                    <button class="copy-btn" onclick="copyValue('cfh', this)" title="Copy value">📋</button>
+                </div>
+            </div>
+            <div class="clear-container">
+                <button class="btn btn-clear" onclick="clearGroup(airFactors)">Clear</button>
+            </div>
+        </div>
+
+        <div class="converter-section">
+            <h3 class="section-header">Airflow Velocity</h3>
+            <div class="unit-grid">
+                <div class="input-wrapper">
+                    <label>Meters / Sec [m/s]</label>
+                    <input type="text" inputmode="decimal" id="ms" oninput="syncVelocity('ms')" onblur="formatActive('ms')" placeholder="0">
+                    <button class="copy-btn" onclick="copyValue('ms', this)" title="Copy value">📋</button>
+                </div>
+                <div class="input-wrapper">
+                    <label>Feet / Min [FPM]</label>
+                    <input type="text" inputmode="decimal" id="fpm" oninput="syncVelocity('fpm')" onblur="formatActive('fpm')" placeholder="0">
+                    <button class="copy-btn" onclick="copyValue('fpm', this)" title="Copy value">📋</button>
+                </div>
+            </div>
+            <div class="clear-container">
+                <button class="btn btn-clear" onclick="clearGroup(velFactors)">Clear</button>
+            </div>
+        </div>
+
+        <div class="converter-section">
+            <h3 class="section-header">External Static Pressure</h3>
+            <div class="unit-grid">
+                <div class="input-wrapper">
+                    <label>Pascal [Pa]</label>
+                    <input type="text" inputmode="decimal" id="pa" oninput="syncESP('pa')" onblur="formatActive('pa')" placeholder="0">
+                    <button class="copy-btn" onclick="copyValue('pa', this)" title="Copy value">📋</button>
+                </div>
+                <div class="input-wrapper">
+                    <label>Kilopascal [kPa]</label>
+                    <input type="text" inputmode="decimal" id="kpa" oninput="syncESP('kpa')" onblur="formatActive('kpa')" placeholder="0">
+                    <button class="copy-btn" onclick="copyValue('kpa', this)" title="Copy value">📋</button>
+                </div>
+                <div class="input-wrapper">
+                    <label>Inches Water [in.wg]</label>
+                    <input type="text" inputmode="decimal" id="inwg" oninput="syncESP('inwg')" onblur="formatActive('inwg')" placeholder="0">
+                    <button class="copy-btn" onclick="copyValue('inwg', this)" title="Copy value">📋</button>
+                </div>
+                <div class="input-wrapper">
+                    <label>Millimeters Water [mm.wg]</label>
+                    <input type="text" inputmode="decimal" id="mmwg" oninput="syncESP('mmwg')" onblur="formatActive('mmwg')" placeholder="0">
+                    <button class="copy-btn" onclick="copyValue('mmwg', this)" title="Copy value">📋</button>
+                </div>
+                <div class="input-wrapper">
+                    <label>Millibar [mbar]</label>
+                    <input type="text" inputmode="decimal" id="mbar" oninput="syncESP('mbar')" onblur="formatActive('mbar')" placeholder="0">
+                    <button class="copy-btn" onclick="copyValue('mbar', this)" title="Copy value">📋</button>
+                </div>
+                <div class="input-wrapper">
+                    <label>Pounds / Sq. Inch [psi]</label>
+                    <input type="text" inputmode="decimal" id="psi" oninput="syncESP('psi')" onblur="formatActive('psi')" placeholder="0">
+                    <button class="copy-btn" onclick="copyValue('psi', this)" title="Copy value">📋</button>
+                </div>
+            </div>
+            <div class="clear-container">
+                <button class="btn btn-clear" onclick="clearGroup(espFactors)">Clear</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- Engineering Standard Decimal Configuration ---
+        const decMap = {
+            cmh: 0,
+            cms: 4,
+            lps: 1,
+            cfm: 0,
+            cfh: 0,
+            pa: 1,
+            kpa: 3,
+            inwg: 3,
+            mmwg: 1,
+            mbar: 2,
+            psi: 3,
+            ms: 2,
+            fpm: 0
+        };
+
+        // --- Helper for dynamic dropdown decimals ---
+        function getDynamicDecimals(unitString) {
+            const dynamicDecMap = {
+                'cmh': 0, 'cms': 4, 'lps': 1, 'cfm': 0,
+                'mm': 0, 'inch': 2,
+                'ms': 2, 'fpm': 0
+            };
+            return dynamicDecMap[unitString] !== undefined ? dynamicDecMap[unitString] : 2;
+        }
+
+        // Sync Dimension Units (Width and Height)
+        function syncDimUnits(sourceId) {
+            const sourceSelect = document.getElementById(sourceId);
+            const targetId = (sourceId === 'dimUnitW') ? 'dimUnitH' : 'dimUnitW';
+            const targetSelect = document.getElementById(targetId);
+            targetSelect.value = sourceSelect.value;
+        }
+
+        // --- Copy to Clipboard Function (Software Friendly) ---
+        function copyValue(inputId, btnElement) {
+            const el = document.getElementById(inputId);
+            if (!el.value) return; 
+            
+            // Strips out the comma before copying to clipboard
+            const cleanValue = el.value.replace(/,/g, '');
+            
+            navigator.clipboard.writeText(cleanValue).then(() => {
+                const originalIcon = btnElement.innerText;
+                btnElement.innerText = '✅';
+                setTimeout(() => {
+                    btnElement.innerText = originalIcon;
+                }, 1200); 
+            });
+        }
+
+        // --- High-Precision Multi-Unit Conversion Logic ---
+        const airFactors = {
+            cmh: 1,
+            cms: 1 / 3600,
+            lps: 1 / 3.6,
+            cfm: 1 / 1.6990107955,
+            cfh: 35.3146667215
+        };
+
+        const espFactors = {
+            pa: 1,
+            kpa: 1 / 1000,
+            inwg: 1 / 248.84,
+            mmwg: 1 / 9.80665, 
+            mbar: 1 / 100,
+            psi: 1 / 6894.757293
+        };
+
+        const velFactors = {
+            ms: 1,
+            fpm: 196.850394
+        };
+
+        function syncAirflow(sourceId) {
+            const rawInput = document.getElementById(sourceId).value.replace(/,/g, '');
+            if (rawInput === '' || isNaN(rawInput)) {
+                Object.keys(airFactors).forEach(id => { if (id !== sourceId) document.getElementById(id).value = ''; });
+                return;
+            }
+            const baseVal = parseFloat(rawInput) / airFactors[sourceId];
+            Object.keys(airFactors).forEach(id => {
+                if (id !== sourceId) {
+                    let result = baseVal * airFactors[id];
+                    document.getElementById(id).value = result.toLocaleString('en-US', { maximumFractionDigits: decMap[id] });
+                }
+            });
+        }
+
+        function syncVelocity(sourceId) {
+            const rawInput = document.getElementById(sourceId).value.replace(/,/g, '');
+            if (rawInput === '' || isNaN(rawInput)) {
+                Object.keys(velFactors).forEach(id => { if (id !== sourceId) document.getElementById(id).value = ''; });
+                return;
+            }
+            const baseVal = parseFloat(rawInput) / velFactors[sourceId];
+            Object.keys(velFactors).forEach(id => {
+                if (id !== sourceId) {
+                    let result = baseVal * velFactors[id];
+                    document.getElementById(id).value = result.toLocaleString('en-US', { maximumFractionDigits: decMap[id] });
+                }
+            });
+        }
+
+        function syncESP(sourceId) {
+            const rawInput = document.getElementById(sourceId).value.replace(/,/g, '');
+            if (rawInput === '' || isNaN(rawInput)) {
+                Object.keys(espFactors).forEach(id => { if (id !== sourceId) document.getElementById(id).value = ''; });
+                return;
+            }
+            const baseVal = parseFloat(rawInput) / espFactors[sourceId];
+            Object.keys(espFactors).forEach(id => {
+                if (id !== sourceId) {
+                    let result = baseVal * espFactors[id];
+                    document.getElementById(id).value = result.toLocaleString('en-US', { maximumFractionDigits: decMap[id] });
+                }
+            });
+        }
+
+        // --- Unified Duct Velocity Calculator Logic ---
+        function calcDuctVelocity() {
+            let volRaw = document.getElementById('calcVol').value.replace(/,/g, '');
+            let wRaw = document.getElementById('calcWidth').value.replace(/,/g, '');
+            let hRaw = document.getElementById('calcHeight').value.replace(/,/g, '');
+
+            let vol = parseFloat(volRaw);
+            let w = parseFloat(wRaw);
+            let h = parseFloat(hRaw);
+
+            // 1. Ratio Logic (Independent of Volume)
+            if (!isNaN(w) && !isNaN(h) && w > 0 && h > 0) {
+                let maxDim = Math.max(w, h);
+                let minDim = Math.min(w, h);
+                document.getElementById('calcRatio').value = (maxDim / minDim).toLocaleString('en-US', { maximumFractionDigits: 2 }) + ' : 1';
+            } else {
+                document.getElementById('calcRatio').value = '';
+            }
+
+            // 2. Velocity Logic (Dependent on Volume)
+            let volUnit = document.getElementById('volUnit').value;
+            let wUnit = document.getElementById('dimUnitW').value;
+            let hUnit = document.getElementById('dimUnitH').value;
+            let velUnit = document.getElementById('velUnit').value;
+
+            if (!isNaN(vol) && vol > 0 && !isNaN(w) && w > 0 && !isNaN(h) && h > 0) {
+                // Standardize Volume to m3/s for internal calculation
+                let cms = 0;
+                if (volUnit === 'cmh') cms = vol / 3600;
+                else if (volUnit === 'cms') cms = vol;
+                else if (volUnit === 'lps') cms = vol / 1000;
+                else if (volUnit === 'cfm') cms = vol * 0.000471947443; 
+
+                // Standardize Dimensions to meters
+                let w_m = (wUnit === 'mm') ? w / 1000 : w * 0.0254;
+                let h_m = (hUnit === 'mm') ? h / 1000 : h * 0.0254;
+
+                // Calculate Area and baseline Velocity in m/s
+                let areaM2 = w_m * h_m;
+                let vel_ms = cms / areaM2;
+
+                // Output to selected target unit
+                let finalVel = (velUnit === 'ms') ? vel_ms : vel_ms * 196.850394;
+                document.getElementById('calcResult').value = finalVel.toLocaleString('en-US', { maximumFractionDigits: getDynamicDecimals(velUnit) });
+            } else {
+                document.getElementById('calcResult').value = '';
+            }
+        }
+
+        function clearCalculator() {
+            const fields = ['calcVol', 'calcWidth', 'calcHeight', 'calcResult', 'calcRatio'];
+            fields.forEach(id => { document.getElementById(id).value = ''; });
+        }
+
+        // --- Formatting and Utilities ---
+        function clearGroup(factorObject) {
+            Object.keys(factorObject).forEach(id => { 
+                document.getElementById(id).value = ''; 
+            });
+        }
+
+        // Formats static boxes (Airflow, ESP, etc.)
+        function formatActive(sourceId) {
+            const el = document.getElementById(sourceId);
+            const val = el.value.replace(/,/g, '');
+            if (val !== '' && !isNaN(val)) {
+                el.value = parseFloat(val).toLocaleString('en-US', { maximumFractionDigits: decMap[sourceId] });
+            }
+        }
+
+        // Formats the Duct Calculator boxes based on their current active dropdown
+        function formatDynamicInput(inputId, selectId) {
+            const el = document.getElementById(inputId);
+            const unit = document.getElementById(selectId).value;
+            const val = el.value.replace(/,/g, '');
+            if (val !== '' && !isNaN(val)) {
+                el.value = parseFloat(val).toLocaleString('en-US', { maximumFractionDigits: getDynamicDecimals(unit) });
+            }
+        }
+
+        // --- Custom Links Management & Drag-and-Drop Logic ---
+        const storageKey = 'systemairCompanyLinks'; 
+        let isManageMode = false;
+        let draggedElement = null;
+
+        document.addEventListener("DOMContentLoaded", loadLinks);
+
+        function toggleManageMode() {
+            isManageMode = !isManageMode;
+            const container = document.getElementById('linksContainer');
+            const toggleBtn = document.getElementById('manageToggle');
+            const items = container.querySelectorAll('.link-item');
+            
+            if (isManageMode) {
+                container.classList.add('manage-mode');
+                toggleBtn.classList.add('active');
+                toggleBtn.innerText = "Done Editing";
+                items.forEach(item => item.draggable = true);
+            } else {
+                container.classList.remove('manage-mode');
+                toggleBtn.classList.remove('active');
+                toggleBtn.innerText = "⚙️ Manage Links";
+                items.forEach(item => item.draggable = false);
+            }
+        }
+
+        function loadLinks() {
+            let links = JSON.parse(localStorage.getItem(storageKey));
+            
+            if (!links || links.length === 0) {
+                links = [
+                    {"id":1776407872425,"name":"Systemair MY","url":"https://www.systemair.com"},
+                    {"id":1776409688618,"name":"AXC Axial Fan","url":"https://configurator.systemair.com/syscon/projects"},
+                    {"id":1776409518173,"name":"AAW Axial Fans","url":"https://www.systemair.com/en-my/products/fans/axial-fans/aaw?sku=59050"},
+                    {"id":1776409432540,"name":"K A/AL Fan","url":"https://www.systemair.com/en-my/products/fans/duct-fans/circular-duct-fans/k?sku=508389"},
+                    {"id":1776408577092,"name":"CDRE/D","url":"https://www.systemair.com/en-my/products/fans/duct-fans/square-duct-fans/cdr"},
+                    {"id":1776410176751,"name":"MUB(A)/T Fan","url":"https://www.systemair.com/en-my/products/fans/duct-fans/insulated-duct-fans/mub/mub-t"},
+                    {"id":1776410399916,"name":"MUB Insulated","url":"https://www.systemair.com/en-my/products/fans/duct-fans/insulated-duct-fans/mub/mub"},
+                    {"id":1776410097572,"name":"BKF Duct Fan","url":"https://www.systemair.com/en-my/products/fans/duct-fans/rectangular-duct-fans/bkf"},
+                    {"id":1776408323516,"name":"ASP Centrifugal","url":"https://www.systemair.com/en-my/products/selection-software/centrifugal-fans?ecom-category-id-MULTI=90101"}
+                ];
+                localStorage.setItem(storageKey, JSON.stringify(links));
+            }
+            
+            renderAllLinks(links);
+        }
+
+        function renderAllLinks(linksArray) {
+            const container = document.getElementById('linksContainer');
+            container.innerHTML = ''; 
+            
+            linksArray.forEach(linkObj => {
+                const div = document.createElement('div');
+                div.className = 'link-item';
+                div.id = 'link-' + linkObj.id;
+                div.draggable = isManageMode; 
+
+                const a = document.createElement('a');
+                a.href = linkObj.url;
+                a.target = "_blank";
+                a.className = "btn btn-link";
+                a.textContent = linkObj.name;
+
+                const badges = document.createElement('div');
+                badges.className = 'action-badges';
+
+                const editBtn = document.createElement('button');
+                editBtn.className = 'badge-btn edit-badge';
+                editBtn.innerHTML = '✏️';
+                editBtn.title = "Edit Link";
+                editBtn.onclick = () => editLink(linkObj.id);
+
+                const delBtn = document.createElement('button');
+                delBtn.className = 'badge-btn del-badge';
+                delBtn.innerHTML = '❌';
+                delBtn.title = "Remove Link";
+                delBtn.onclick = () => removeLink(linkObj.id);
+
+                badges.appendChild(editBtn);
+                badges.appendChild(delBtn);
+                div.appendChild(a);
+                div.appendChild(badges);
+                
+                div.addEventListener('dragstart', (e) => {
+                    if (!isManageMode) return;
+                    draggedElement = div;
+                    setTimeout(() => div.classList.add('dragging'), 0);
+                });
+
+                div.addEventListener('dragend', (e) => {
+                    if (!isManageMode) return;
+                    div.classList.remove('dragging');
+                    draggedElement = null;
+                    saveNewOrder();
+                });
+
+                div.addEventListener('dragover', (e) => {
+                    if (!isManageMode) return;
+                    e.preventDefault(); 
+                });
+
+                div.addEventListener('dragenter', (e) => {
+                    if (!isManageMode) return;
+                    e.preventDefault();
+                    const targetDiv = e.target.closest('.link-item');
+                    if (draggedElement && targetDiv && draggedElement !== targetDiv) {
+                        const items = Array.from(container.children);
+                        const draggedIndex = items.indexOf(draggedElement);
+                        const targetIndex = items.indexOf(targetDiv);
+
+                        if (draggedIndex < targetIndex) {
+                            targetDiv.after(draggedElement);
+                        } else {
+                            targetDiv.before(draggedElement);
+                        }
+                    }
+                });
+
+                container.appendChild(div);
+            });
+        }
+
+        function saveNewOrder() {
+            const container = document.getElementById('linksContainer');
+            const currentItems = Array.from(container.querySelectorAll('.link-item'));
+            let links = JSON.parse(localStorage.getItem(storageKey)) || [];
+
+            let linkMap = {};
+            links.forEach(l => linkMap[l.id] = l);
+
+            let newLinks = [];
+            currentItems.forEach(item => {
+                const id = parseInt(item.id.replace('link-', ''));
+                if (linkMap[id]) newLinks.push(linkMap[id]);
+            });
+
+            localStorage.setItem(storageKey, JSON.stringify(newLinks));
+        }
+
+        function addNewLink() {
+            let name = prompt("Enter the name of the website:");
+            if (!name) return;
+            
+            let url = prompt("Enter the URL (e.g., www.systemair.com):");
+            if (!url) return;
+
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                url = 'https://' + url;
+            }
+
+            let links = JSON.parse(localStorage.getItem(storageKey)) || [];
+            links.push({ id: Date.now(), name: name, url: url });
+            localStorage.setItem(storageKey, JSON.stringify(links));
+            
+            renderAllLinks(links);
+        }
+
+        function editLink(id) {
+            let links = JSON.parse(localStorage.getItem(storageKey)) || [];
+            let linkIndex = links.findIndex(l => l.id === id);
+            
+            if (linkIndex > -1) {
+                let newName = prompt("Edit link name:", links[linkIndex].name);
+                if (!newName) return; 
+                
+                let newUrl = prompt("Edit URL:", links[linkIndex].url);
+                if (!newUrl) return; 
+
+                if (!newUrl.startsWith('http://') && !newUrl.startsWith('https://')) {
+                    newUrl = 'https://' + newUrl;
+                }
+
+                links[linkIndex].name = newName;
+                links[linkIndex].url = newUrl;
+                
+                localStorage.setItem(storageKey, JSON.stringify(links));
+                renderAllLinks(links);
+            }
+        }
+
+        function removeLink(id) {
+            if(confirm("Are you sure you want to remove this link?")) {
+                let links = JSON.parse(localStorage.getItem(storageKey)) || [];
+                links = links.filter(link => link.id !== id);
+                localStorage.setItem(storageKey, JSON.stringify(links));
+                
+                renderAllLinks(links);
+            }
+        }
+    </script>
+</body>
+</html>
