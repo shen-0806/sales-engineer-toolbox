@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sales Engineer Toolbox</title>
+    <link rel="icon" type="image/png" href="tool-box.png">
     <style>
         :root {
             --sys-blue-dark: #002543;
@@ -226,7 +227,11 @@
                 </div>
                 <div class="input-wrapper span-full">
                     <div style="display:flex; justify-content:space-between; margin-bottom:6px;"><label>Cross-Sectional Area (A)</label>
-                    <select id="qvaAreaMethod" onchange="toggleQVAAreaInputs()" style="font-size:0.8rem; border:1px solid var(--border-color); outline:none; cursor:pointer;"><option value="direct">Direct Key-in</option><option value="rectangle">Rectangle</option><option value="circle">Circle</option></select></div>
+                    <select id="qvaAreaMethod" onchange="toggleQVAAreaInputs()" style="font-size:0.8rem; border:1px solid var(--border-color); outline:none; cursor:pointer;">
+                        <option value="rectangle" selected>Rectangle</option>
+                        <option value="circle">Circle</option>
+                        <option value="direct">Direct Key-in</option>
+                    </select></div>
                     <div id="qvaAreaRectWrapper" style="display:none; gap:15px; margin-bottom:10px;">
                         <div class="input-wrapper no-label-group" style="flex:1"><input type="text" id="qvaRectW" oninput="calcAreaFromDims()" placeholder="Width"><select class="unit-select" id="qvaRectUnitW" onchange="calcAreaFromDims()"><option value="mm">mm</option><option value="inch">in</option></select></div>
                         <div class="input-wrapper no-label-group" style="flex:1"><input type="text" id="qvaRectH" oninput="calcAreaFromDims()" placeholder="Height"><select class="unit-select" id="qvaRectUnitH" onchange="calcAreaFromDims()"><option value="mm">mm</option><option value="inch">in</option></select></div>
@@ -249,16 +254,28 @@
                 <h3 class="section-title">⚡ Velocity Calculator</h3>
             </div>
             <div class="calc-layout-grid">
-                <div class="input-wrapper span-full"><label>Airflow Volume</label><input type="text" class="input-with-select" id="calcVol" oninput="runAllCalculations()" placeholder="0"><select class="unit-select" id="volUnit" onchange="runAllCalculations()"><option value="cmh">m&sup3;/h</option><option value="cms">m&sup3;/s</option><option value="cfm">CFM</option><option value="lps">l/s</option></select></div>
                 
-                <div class="span-full" style="border-top:1px dashed var(--border-color); padding-top:20px; margin-top:5px;">
+                <div class="span-full" style="padding-top:10px;">
                     <h4 style="color: var(--sys-blue-mid); margin: 0 0 10px 0; font-size: 1rem;">⮑ Duct</h4>
                 </div>
+                
+                <div class="input-wrapper span-full"><label>Airflow Volume (Duct)</label><input type="text" class="input-with-select" id="calcVol" oninput="runAllCalculations()" placeholder="0"><select class="unit-select" id="volUnit" onchange="runAllCalculations()"><option value="cmh">m&sup3;/h</option><option value="cms">m&sup3;/s</option><option value="cfm">CFM</option><option value="lps">l/s</option></select></div>
                 
                 <div class="input-wrapper"><label>W</label><input type="text" class="input-with-select" id="calcWidth" oninput="runAllCalculations()" placeholder="0"><select class="unit-select" id="dimUnitW" onchange="syncDimUnits('dimUnitW','dimUnitH'); runAllCalculations()"><option value="mm">mm</option><option value="inch">in</option></select></div>
                 <div class="input-wrapper"><label>H</label><input type="text" class="input-with-select" id="calcHeight" oninput="runAllCalculations()" placeholder="0"><select class="unit-select" id="dimUnitH" onchange="syncDimUnits('dimUnitH','dimUnitW'); runAllCalculations()"><option value="mm">mm</option><option value="inch">in</option></select></div>
                 <div class="input-wrapper"><label>Ratio</label><input type="text" id="calcRatio" readonly placeholder="1 : 1"></div>
                 <div class="input-wrapper span-full"><label>Internal Velocity</label><input type="text" class="input-with-select" id="calcResult" readonly placeholder="0"><select class="unit-select" id="velUnit" onchange="runAllCalculations()"><option value="ms">m/s</option><option value="fpm">FPM</option></select><button class="copy-btn" onclick="copyValue('calcResult', this)">📋</button></div>
+
+                <div class="span-full" style="border-top:1px dashed var(--border-color); padding-top:20px; margin-top:5px;">
+                    <h4 style="color: var(--sys-blue-mid); margin: 0 0 10px 0; font-size: 1rem;">⮑ Terminals (Grille & Louvre)</h4>
+                </div>
+                <div class="input-wrapper span-full">
+                    <label>Airflow Volume (Terminals)</label>
+                    <input type="text" class="input-with-select" id="calcVolTerm" oninput="runAllCalculations()" placeholder="0">
+                    <select class="unit-select" id="volUnitTerm" onchange="runAllCalculations()">
+                        <option value="cmh">m&sup3;/h</option><option value="cms">m&sup3;/s</option><option value="cfm">CFM</option><option value="lps">l/s</option>
+                    </select>
+                </div>
 
                 <div class="span-full" style="border-top:1px dashed var(--border-color); padding-top:20px; margin-top:5px;"><h4 style="color: var(--sys-blue-mid); margin: 0 0 10px 0; font-size: 1rem;">⮑ Grille</h4></div>
                 <div class="input-wrapper"><label>Qty</label><input type="text" id="grilleQty" oninput="runAllCalculations()" value="1"></div>
@@ -320,6 +337,12 @@
     </div>
 
     <script>
+        // --- Scroll to Top on Refresh ---
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+        window.scrollTo(0, 0);
+
         // Formatting Helpers
         const decMap = { cmh:0, cms:4, lps:1, cfm:0, cfh:0, pa:1, kpa:3, inwg:3, mmwg:1, mbar:2, psi:3, ms:2, fpm:0 };
         function getDec(u) { const m = {cmh:0, cms:4, lps:1, cfm:0, sqm:3, sqft:2, ms:2, fpm:0, mm:0, inch:2}; return m[u] !== undefined ? m[u] : 2; }
@@ -345,12 +368,18 @@
 
         // --- Core Duct/Velocity Calculations ---
         function runAllCalculations() {
+            // Duct Airflow
             let vol = parseFloat(document.getElementById('calcVol').value.replace(/,/g, ''));
             let w = parseFloat(document.getElementById('calcWidth').value.replace(/,/g, ''));
             let h = parseFloat(document.getElementById('calcHeight').value.replace(/,/g, ''));
             let volU = document.getElementById('volUnit').value;
             let cms = isNaN(vol) ? undefined : (volU === 'cmh' ? vol/3600 : volU === 'cms' ? vol : volU === 'lps' ? vol/1000 : vol * 0.000471947);
             
+            // Terminal Airflow
+            let volTerm = parseFloat(document.getElementById('calcVolTerm').value.replace(/,/g, ''));
+            let volTermU = document.getElementById('volUnitTerm').value;
+            let cmsTerm = isNaN(volTerm) ? undefined : (volTermU === 'cmh' ? volTerm/3600 : volTermU === 'cms' ? volTerm : volTermU === 'lps' ? volTerm/1000 : volTerm * 0.000471947);
+
             // Duct Calc
             if (!isNaN(w) && !isNaN(h) && w>0 && h>0) {
                 let max = Math.max(w,h), min = Math.min(w,h); document.getElementById('calcRatio').value = (max/min).toFixed(2) + ' : 1';
@@ -367,8 +396,8 @@
             let gFA = parseFloat(document.getElementById('grilleFA').value);
             document.getElementById('grilleVolOut').value = ''; document.getElementById('grilleVelOut').value = '';
             
-            if (cms !== undefined && !isNaN(qty) && qty > 0) {
-                let gCMS = cms/qty;
+            if (cmsTerm !== undefined && !isNaN(qty) && qty > 0) {
+                let gCMS = cmsTerm/qty;
                 let gVolU = document.getElementById('grilleVolUnit').value;
                 document.getElementById('grilleVolOut').value = (gVolU === 'cmh' ? gCMS*3600 : gVolU==='cms' ? gCMS : gVolU === 'lps' ? gCMS*1000 : gCMS/0.000471947).toLocaleString('en-US', {maximumFractionDigits: getDec(gVolU)});
                 if (!isNaN(gW) && !isNaN(gH) && !isNaN(gFA) && gFA > 0) {
@@ -381,14 +410,14 @@
             // Louvre Calc
             let lW = parseFloat(document.getElementById('louvreW').value.replace(/,/g, '')), lH = parseFloat(document.getElementById('louvreH').value.replace(/,/g, '')), lFA = parseFloat(document.getElementById('louvreFA').value);
             document.getElementById('louvreVelOut').value = '';
-            if (cms !== undefined && !isNaN(lW) && lW > 0 && !isNaN(lH) && lH > 0 && !isNaN(lFA) && lFA > 0) {
+            if (cmsTerm !== undefined && !isNaN(lW) && lW > 0 && !isNaN(lH) && lH > 0 && !isNaN(lFA) && lFA > 0) {
                 let lA = (document.getElementById('louvreUnitW').value === 'mm' ? lW/1000 : lW*0.0254) * (document.getElementById('louvreUnitH').value === 'mm' ? lH/1000 : lH*0.0254);
-                let lV = cms / (lA * (lFA/100)); let velU = document.getElementById('louvreVelUnit').value;
+                let lV = cmsTerm / (lA * (lFA/100)); let velU = document.getElementById('louvreVelUnit').value;
                 document.getElementById('louvreVelOut').value = (velU === 'ms' ? lV : lV*196.85).toLocaleString('en-US', {maximumFractionDigits: getDec(velU)});
             }
         }
         function clearCalculator() {
-            ['calcVol','calcWidth','calcHeight','calcResult','calcRatio','grilleW','grilleH','grilleVolOut','grilleVelOut','louvreW','louvreH','louvreVelOut'].forEach(id => document.getElementById(id).value='');
+            ['calcVol','calcVolTerm','calcWidth','calcHeight','calcResult','calcRatio','grilleW','grilleH','grilleVolOut','grilleVelOut','louvreW','louvreH','louvreVelOut'].forEach(id => document.getElementById(id).value='');
             document.getElementById('grilleQty').value = '1'; document.getElementById('grilleFA').value = '50'; document.getElementById('louvreFA').value = '50';
         }
 
@@ -437,7 +466,13 @@
 
         // --- Custom Links ---
         const storageKey='systemairCompanyLinks'; let isManageMode=false, draggedElement=null;
-        document.addEventListener("DOMContentLoaded", loadLinks);
+        
+        // --- Initialization ---
+        document.addEventListener("DOMContentLoaded", () => {
+            loadLinks();
+            toggleQVAAreaInputs(); // Ensures Rectangle inputs show immediately on load
+        });
+        
         function toggleManageMode() {
             isManageMode = !isManageMode; const c=document.getElementById('linksContainer'), t=document.getElementById('manageToggle'), i=c.querySelectorAll('.link-item');
             if(isManageMode){ c.classList.add('manage-mode'); t.classList.add('active'); t.innerText="Done Editing"; i.forEach(x=>x.draggable=true); }
