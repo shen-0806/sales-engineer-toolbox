@@ -597,7 +597,12 @@
                     </select>
                 </div>
                 
-                <div class="input-wrapper" style="grid-column: span 1;">
+                <div class="input-wrapper">
+                    <label>Free Area (%)</label>
+                    <input type="text" inputmode="decimal" id="grilleFA" oninput="calcDuctVelocity()" placeholder="50" value="50">
+                </div>
+
+                <div class="input-wrapper">
                     <label>Airflow / Grille</label>
                     <input type="text" class="input-with-select" id="grilleVolOut" readonly placeholder="0">
                     <select class="unit-select" id="grilleVolUnit" onchange="calcDuctVelocity()">
@@ -609,7 +614,7 @@
                     <button class="copy-btn" onclick="copyValue('grilleVolOut', this)" title="Copy value">📋</button>
                 </div>
                 
-                <div class="input-wrapper" style="grid-column: span 2;">
+                <div class="input-wrapper">
                     <label>Velocity / Grille</label>
                     <input type="text" class="input-with-select" id="grilleVelOut" readonly placeholder="0">
                     <select class="unit-select" id="grilleVelUnit" onchange="calcDuctVelocity()">
@@ -624,11 +629,29 @@
                 </div>
                 
                 <div class="input-wrapper">
+                    <label>Louvre Width</label>
+                    <input type="text" class="input-with-select" inputmode="decimal" id="louvreW" oninput="calcDuctVelocity()" placeholder="0">
+                    <select class="unit-select" id="louvreUnitW" onchange="syncDimUnits('louvreUnitW', 'louvreUnitH'); calcDuctVelocity()">
+                        <option value="mm">mm</option>
+                        <option value="inch">inch</option>
+                    </select>
+                </div>
+
+                <div class="input-wrapper">
+                    <label>Louvre Height</label>
+                    <input type="text" class="input-with-select" inputmode="decimal" id="louvreH" oninput="calcDuctVelocity()" placeholder="0">
+                    <select class="unit-select" id="louvreUnitH" onchange="syncDimUnits('louvreUnitH', 'louvreUnitW'); calcDuctVelocity()">
+                        <option value="mm">mm</option>
+                        <option value="inch">inch</option>
+                    </select>
+                </div>
+
+                <div class="input-wrapper">
                     <label>Free Area (%)</label>
                     <input type="text" inputmode="decimal" id="louvreFA" oninput="calcDuctVelocity()" placeholder="50" value="50">
                 </div>
                 
-                <div class="input-wrapper" style="grid-column: span 2;">
+                <div class="input-wrapper span-full">
                     <label>Air Velocity at Louvre</label>
                     <input type="text" class="input-with-select" id="louvreVelOut" readonly placeholder="0">
                     <select class="unit-select" id="louvreVelUnit" onchange="calcDuctVelocity()">
@@ -922,6 +945,7 @@
             let grilleQty = parseFloat(document.getElementById('grilleQty').value);
             let gW = parseFloat(document.getElementById('grilleW').value.replace(/,/g, ''));
             let gH = parseFloat(document.getElementById('grilleH').value.replace(/,/g, ''));
+            let gFA = parseFloat(document.getElementById('grilleFA').value);
             let gWUnit = document.getElementById('grilleUnitW').value;
             let gHUnit = document.getElementById('grilleUnitH').value;
             let gVolUnit = document.getElementById('grilleVolUnit').value;
@@ -937,11 +961,11 @@
                 let gVol_final = (gVolUnit === 'cmh') ? g_cms * 3600 : (gVolUnit === 'lps') ? g_cms * 1000 : (gVolUnit === 'cfm') ? g_cms / 0.000471947443 : g_cms;
                 document.getElementById('grilleVolOut').value = gVol_final.toLocaleString('en-US', { maximumFractionDigits: getDynamicDecimals(gVolUnit) });
 
-                // Set Vel/Grille Output
-                if (!isNaN(gW) && gW > 0 && !isNaN(gH) && gH > 0) {
+                // Set Vel/Grille Output (Now factoring in Free Area)
+                if (!isNaN(gW) && gW > 0 && !isNaN(gH) && gH > 0 && !isNaN(gFA) && gFA > 0) {
                     let gw_m = (gWUnit === 'mm') ? gW / 1000 : gW * 0.0254;
                     let gh_m = (gHUnit === 'mm') ? gH / 1000 : gH * 0.0254;
-                    let gArea_m2 = gw_m * gh_m;
+                    let gArea_m2 = (gw_m * gh_m) * (gFA / 100);
 
                     let gVel_ms = g_cms / gArea_m2;
                     let gVel_final = (gVelUnit === 'ms') ? gVel_ms : gVel_ms * 196.850394;
@@ -950,13 +974,22 @@
             }
 
             // --- 5. LOUVRE EXTENSION ---
+            let lWRaw = document.getElementById('louvreW').value.replace(/,/g, '');
+            let lHRaw = document.getElementById('louvreH').value.replace(/,/g, '');
+            let lW = parseFloat(lWRaw);
+            let lH = parseFloat(lHRaw);
+            let lWUnit = document.getElementById('louvreUnitW').value;
+            let lHUnit = document.getElementById('louvreUnitH').value;
             let lFA = parseFloat(document.getElementById('louvreFA').value);
             let lVelUnit = document.getElementById('louvreVelUnit').value;
             
             document.getElementById('louvreVelOut').value = '';
 
-            if (cms !== undefined && areaM2 !== undefined && !isNaN(lFA) && lFA > 0) {
-                let effective_area = areaM2 * (lFA / 100);
+            if (cms !== undefined && !isNaN(lW) && lW > 0 && !isNaN(lH) && lH > 0 && !isNaN(lFA) && lFA > 0) {
+                let lw_m = (lWUnit === 'mm') ? lW / 1000 : lW * 0.0254;
+                let lh_m = (lHUnit === 'mm') ? lH / 1000 : lH * 0.0254;
+                let effective_area = (lw_m * lh_m) * (lFA / 100);
+                
                 let lVel_ms = cms / effective_area;
                 let lVel_final = (lVelUnit === 'ms') ? lVel_ms : lVel_ms * 196.850394;
                 document.getElementById('louvreVelOut').value = lVel_final.toLocaleString('en-US', { maximumFractionDigits: getDynamicDecimals(lVelUnit) });
@@ -966,10 +999,11 @@
         function clearCalculator() {
             const fields = [
                 'calcVol', 'calcWidth', 'calcHeight', 'calcResult', 'calcRatio', 
-                'grilleW', 'grilleH', 'grilleVolOut', 'grilleVelOut', 'louvreVelOut'
+                'grilleW', 'grilleH', 'grilleVolOut', 'grilleVelOut', 'louvreW', 'louvreH', 'louvreVelOut'
             ];
             fields.forEach(id => { document.getElementById(id).value = ''; });
             document.getElementById('grilleQty').value = '1';
+            document.getElementById('grilleFA').value = '50';
             document.getElementById('louvreFA').value = '50';
         }
 
