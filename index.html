@@ -213,13 +213,13 @@
             </div>
             <div class="calc-layout-grid">
                 <div class="input-wrapper span-full">
-                    <label>Airflow Volume (Q)</label>
+                    <label>Volumetric Flow Rate (Q)</label>
                     <input type="text" class="input-with-select" id="qvaVol" oninput="handleQVAInput('Vol')" placeholder="0">
                     <select class="unit-select" id="qvaVolUnit" onchange="calculateQVA()"><option value="cmh">m&sup3;/h</option><option value="cms">m&sup3;/s</option><option value="cfm">CFM</option><option value="lps">l/s</option></select>
                     <button class="copy-btn" onclick="copyValue('qvaVol', this)">📋</button>
                 </div>
                 <div class="input-wrapper span-full">
-                    <label>Velocity (V)</label>
+                    <label>Flow Velocity (V)</label>
                     <input type="text" class="input-with-select" id="qvaVel" oninput="handleQVAInput('Vel')" placeholder="0">
                     <select class="unit-select" id="qvaVelUnit" onchange="calculateQVA()"><option value="ms">m/s</option><option value="fpm">FPM</option></select>
                     <button class="copy-btn" onclick="copyValue('qvaVel', this)">📋</button>
@@ -252,23 +252,23 @@
                 <div class="input-wrapper span-full"><label>Airflow Volume</label><input type="text" class="input-with-select" id="calcVol" oninput="runAllCalculations()" placeholder="0"><select class="unit-select" id="volUnit" onchange="runAllCalculations()"><option value="cmh">m&sup3;/h</option><option value="cms">m&sup3;/s</option><option value="cfm">CFM</option><option value="lps">l/s</option></select></div>
                 
                 <div class="span-full" style="border-top:1px dashed var(--border-color); padding-top:20px; margin-top:5px;">
-                    <h4 style="color: var(--sys-blue-mid); margin: 0 0 10px 0; font-size: 1rem;">⮑ Main Duct</h4>
+                    <h4 style="color: var(--sys-blue-mid); margin: 0 0 10px 0; font-size: 1rem;">⮑ Duct</h4>
                 </div>
                 
-                <div class="input-wrapper"><label>Duct W</label><input type="text" class="input-with-select" id="calcWidth" oninput="runAllCalculations()" placeholder="0"><select class="unit-select" id="dimUnitW" onchange="syncDimUnits('dimUnitW','dimUnitH'); runAllCalculations()"><option value="mm">mm</option><option value="inch">in</option></select></div>
-                <div class="input-wrapper"><label>Duct H</label><input type="text" class="input-with-select" id="calcHeight" oninput="runAllCalculations()" placeholder="0"><select class="unit-select" id="dimUnitH" onchange="syncDimUnits('dimUnitH','dimUnitW'); runAllCalculations()"><option value="mm">mm</option><option value="inch">in</option></select></div>
+                <div class="input-wrapper"><label>W</label><input type="text" class="input-with-select" id="calcWidth" oninput="runAllCalculations()" placeholder="0"><select class="unit-select" id="dimUnitW" onchange="syncDimUnits('dimUnitW','dimUnitH'); runAllCalculations()"><option value="mm">mm</option><option value="inch">in</option></select></div>
+                <div class="input-wrapper"><label>H</label><input type="text" class="input-with-select" id="calcHeight" oninput="runAllCalculations()" placeholder="0"><select class="unit-select" id="dimUnitH" onchange="syncDimUnits('dimUnitH','dimUnitW'); runAllCalculations()"><option value="mm">mm</option><option value="inch">in</option></select></div>
                 <div class="input-wrapper"><label>Ratio</label><input type="text" id="calcRatio" readonly placeholder="1 : 1"></div>
                 <div class="input-wrapper span-full"><label>Internal Velocity</label><input type="text" class="input-with-select" id="calcResult" readonly placeholder="0"><select class="unit-select" id="velUnit" onchange="runAllCalculations()"><option value="ms">m/s</option><option value="fpm">FPM</option></select><button class="copy-btn" onclick="copyValue('calcResult', this)">📋</button></div>
 
-                <div class="span-full" style="border-top:1px dashed var(--border-color); padding-top:20px; margin-top:5px;"><h4 style="color: var(--sys-blue-mid); margin: 0 0 10px 0; font-size: 1rem;">⮑ Grille Distribution</h4></div>
+                <div class="span-full" style="border-top:1px dashed var(--border-color); padding-top:20px; margin-top:5px;"><h4 style="color: var(--sys-blue-mid); margin: 0 0 10px 0; font-size: 1rem;">⮑ Grille</h4></div>
                 <div class="input-wrapper"><label>Qty</label><input type="text" id="grilleQty" oninput="runAllCalculations()" value="1"></div>
                 <div class="input-wrapper"><label>W</label><input type="text" class="input-with-select" id="grilleW" oninput="runAllCalculations()" placeholder="0"><select class="unit-select" id="grilleUnitW" onchange="syncDimUnits('grilleUnitW','grilleUnitH'); runAllCalculations()"><option value="mm">mm</option><option value="inch">in</option></select></div>
                 <div class="input-wrapper"><label>H</label><input type="text" class="input-with-select" id="grilleH" oninput="runAllCalculations()" placeholder="0"><select class="unit-select" id="grilleUnitH" onchange="syncDimUnits('grilleUnitH','grilleUnitW'); runAllCalculations()"><option value="mm">mm</option><option value="inch">in</option></select></div>
                 <div class="input-wrapper"><label>Free Area %</label><input type="text" id="grilleFA" oninput="runAllCalculations()" value="50"></div>
-                <div class="input-wrapper"><label>Vol/Grille</label><input type="text" class="input-with-select" id="grilleVolOut" readonly><select class="unit-select" id="grilleVolUnit" onchange="runAllCalculations()"><option value="cmh">m&sup3;/h</option><option value="cms">m&sup3;/s</option><option value="cfm">CFM</option><option value="lps">l/s</option></select><button class="copy-btn" onclick="copyValue('grilleVolOut', this)">📋</button></div>
-                <div class="input-wrapper"><label>Vel/Grille</label><input type="text" class="input-with-select" id="grilleVelOut" readonly><select class="unit-select" id="grilleVelUnit" onchange="runAllCalculations()"><option value="ms">m/s</option><option value="fpm">FPM</option></select><button class="copy-btn" onclick="copyValue('grilleVelOut', this)">📋</button></div>
+                <div class="input-wrapper"><label>Volume/Grille</label><input type="text" class="input-with-select" id="grilleVolOut" readonly><select class="unit-select" id="grilleVolUnit" onchange="runAllCalculations()"><option value="cmh">m&sup3;/h</option><option value="cms">m&sup3;/s</option><option value="cfm">CFM</option><option value="lps">l/s</option></select><button class="copy-btn" onclick="copyValue('grilleVolOut', this)">📋</button></div>
+                <div class="input-wrapper"><label>Velocity/Grille</label><input type="text" class="input-with-select" id="grilleVelOut" readonly><select class="unit-select" id="grilleVelUnit" onchange="runAllCalculations()"><option value="ms">m/s</option><option value="fpm">FPM</option></select><button class="copy-btn" onclick="copyValue('grilleVelOut', this)">📋</button></div>
 
-                <div class="span-full" style="border-top:1px dashed var(--border-color); padding-top:20px; margin-top:5px;"><h4 style="color: var(--sys-blue-mid); margin: 0 0 10px 0; font-size: 1rem;">⮑ Louvre Velocity</h4></div>
+                <div class="span-full" style="border-top:1px dashed var(--border-color); padding-top:20px; margin-top:5px;"><h4 style="color: var(--sys-blue-mid); margin: 0 0 10px 0; font-size: 1rem;">⮑ Louvre</h4></div>
                 <div class="input-wrapper"><label>W</label><input type="text" class="input-with-select" id="louvreW" oninput="runAllCalculations()" placeholder="0"><select class="unit-select" id="louvreUnitW" onchange="syncDimUnits('louvreUnitW','louvreUnitH'); runAllCalculations()"><option value="mm">mm</option><option value="inch">in</option></select></div>
                 <div class="input-wrapper"><label>H</label><input type="text" class="input-with-select" id="louvreH" oninput="runAllCalculations()" placeholder="0"><select class="unit-select" id="louvreUnitH" onchange="syncDimUnits('louvreUnitH','louvreUnitW'); runAllCalculations()"><option value="mm">mm</option><option value="inch">in</option></select></div>
                 <div class="input-wrapper"><label>Free Area %</label><input type="text" id="louvreFA" oninput="runAllCalculations()" value="50"></div>
