@@ -465,7 +465,7 @@
         function clearQVACalculator(){ ['qvaVol','qvaVel','qvaArea','qvaRectW','qvaRectH','qvaCircD'].forEach(id=>{let e=document.getElementById(id);if(e){e.value='';e.classList.remove('qva-highlight');}}); qvaHistory=[]; }
 
         // --- Custom Links ---
-        const storageKey='systemairCompanyLinks'; let isManageMode=false, draggedElement=null;
+        const storageKey='systemairCompanyLinksV2'; let isManageMode=false, draggedElement=null;
         
         // --- Initialization ---
         document.addEventListener("DOMContentLoaded", () => {
@@ -480,7 +480,20 @@
         }
         function loadLinks() {
             let links=JSON.parse(localStorage.getItem(storageKey));
-            if(!links||links.length===0){ links=[{"id":1,"name":"Systemair MY","url":"https://www.systemair.com"},{"id":2,"name":"AXC Axial Fan","url":"https://configurator.systemair.com/syscon/projects"},{"id":3,"name":"ASP Centrifugal","url":"https://www.systemair.com/en-my/products/selection-software/centrifugal-fans?ecom-category-id-MULTI=90101"}]; localStorage.setItem(storageKey,JSON.stringify(links)); }
+            if(!links||links.length===0){ 
+                links=[
+                    {"id":1,"name":"Systemair MY","url":"https://www.systemair.com/en-my"},
+                    {"id":2,"name":"AXC Axial Fan","url":"https://configurator.systemair.com/syscon/projects"},
+                    {"id":3,"name":"AAW Axial Fans","url":"https://www.systemair.com/en-my/products/fans/axial-fans/aaw"},
+                    {"id":4,"name":"K A/AL Fan","url":"https://www.systemair.com/en-my/products/fans/duct-fans/circular-duct-fans"},
+                    {"id":5,"name":"CDRE/D","url":"https://www.systemair.com/en-my/products/fans/duct-fans/square-duct-fans/cdr"},
+                    {"id":6,"name":"MUB(A)/T","url":"https://www.systemair.com/en-my/products/fans/duct-fans/insulated-duct-fans/mub/mub-t"},
+                    {"id":7,"name":"MUB(A)","url":"https://www.systemair.com/en-my/products/fans/duct-fans/insulated-duct-fans/mub"},
+                    {"id":8,"name":"BKF Duct Fan","url":"https://www.systemair.com/en-my/products/fans/duct-fans/rectangular-duct-fans/bkf"},
+                    {"id":9,"name":"ASP Centrifugal","url":"https://www.systemair.com/en-my/products/selection-software/centrifugal-fans?ecom-category-id-MULTI=90101"}
+                ]; 
+                localStorage.setItem(storageKey,JSON.stringify(links)); 
+            }
             renderAllLinks(links);
         }
         function renderAllLinks(linksArray) {
