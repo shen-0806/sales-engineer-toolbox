@@ -179,12 +179,25 @@
 
         /* Styling for the standout result boxes */
         input[readonly]#calcResult,
-        input[readonly]#calcRatio {
+        input[readonly]#calcRatio,
+        input[readonly]#grilleVolOut,
+        input[readonly]#grilleVelOut,
+        input[readonly]#louvreVelOut {
             background-color: var(--highlight-bg);
             border-color: var(--highlight-border);
             color: var(--sys-blue-dark);
             font-weight: 700;
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+        
+        /* Highlight specific calculated states for QVA calc */
+        .qva-highlight {
+            background-color: var(--highlight-bg) !important;
+            border-color: var(--highlight-border) !important;
+            color: var(--sys-blue-dark) !important;
+            font-weight: 700 !important;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02) !important;
+            transition: all 0.3s ease;
         }
 
         /* Dynamic Dropdowns */
@@ -211,10 +224,10 @@
         }
 
         /* Highlight box select adjustments */
-        #velUnit {
+        #velUnit, #grilleVolUnit, #grilleVelUnit, #louvreVelUnit {
             color: var(--sys-blue-dark);
         }
-        #velUnit:hover {
+        #velUnit:hover, #grilleVolUnit:hover, #grilleVelUnit:hover, #louvreVelUnit:hover {
             background-color: #c7d2fe;
         }
 
@@ -244,6 +257,14 @@
 
         .copy-btn:active {
             transform: scale(0.9);
+        }
+
+        /* Overrides for input boxes without a label */
+        .no-label-group .unit-select {
+            top: 12px;
+        }
+        .no-label-group .copy-btn {
+            top: 8px;
         }
 
         /* --- Custom Links Section Styles --- */
@@ -418,6 +439,88 @@
     <div class="container">
         <h2>Airflow Calculator</h2>
         <div class="subtitle">Type in any box to auto-fill corresponding units.</div>
+
+        <div class="calc-hero">
+            <h3>Q = V &times; A Calculator</h3>
+            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px; text-align: left; margin-top: -10px;">
+                Input any two values to automatically calculate the third.
+            </div>
+            <div class="calc-layout-grid">
+                
+                <div class="input-wrapper span-full">
+                    <label>Airflow Volume (Q)</label>
+                    <input type="text" class="input-with-select" inputmode="decimal" id="qvaVol" oninput="handleQVAInput('Vol')" onblur="formatDynamicInput('qvaVol', 'qvaVolUnit')" placeholder="0">
+                    <select class="unit-select" id="qvaVolUnit" onchange="calculateQVA(); formatDynamicInput('qvaVol', 'qvaVolUnit')">
+                        <option value="cmh">m&sup3;/h</option>
+                        <option value="cms">m&sup3;/s</option>
+                        <option value="cfm">CFM</option>
+                        <option value="lps">l/s</option>
+                    </select>
+                    <button class="copy-btn" onclick="copyValue('qvaVol', this)" title="Copy value">📋</button>
+                </div>
+
+                <div class="input-wrapper span-full">
+                    <label>Velocity (V)</label>
+                    <input type="text" class="input-with-select" inputmode="decimal" id="qvaVel" oninput="handleQVAInput('Vel')" onblur="formatDynamicInput('qvaVel', 'qvaVelUnit')" placeholder="0">
+                    <select class="unit-select" id="qvaVelUnit" onchange="calculateQVA(); formatDynamicInput('qvaVel', 'qvaVelUnit')">
+                        <option value="ms">m/s</option>
+                        <option value="fpm">FPM</option>
+                    </select>
+                    <button class="copy-btn" onclick="copyValue('qvaVel', this)" title="Copy value">📋</button>
+                </div>
+
+                <div class="input-wrapper span-full">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <label style="margin-bottom: 0;">Cross-Sectional Area (A)</label>
+                        <select id="qvaAreaMethod" onchange="toggleQVAAreaInputs()" style="font-size: 0.8rem; padding: 2px 4px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--container-bg); color: var(--text-muted); outline: none; cursor: pointer;">
+                            <option value="direct">Direct Key-in</option>
+                            <option value="rectangle">Rectangle (W &times; H)</option>
+                            <option value="circle">Circle (&empty;)</option>
+                        </select>
+                    </div>
+
+                    <div id="qvaAreaRectWrapper" style="display: none; gap: 15px; margin-bottom: 10px;">
+                        <div class="input-wrapper no-label-group" style="flex: 1;">
+                             <input type="text" class="input-with-select" inputmode="decimal" id="qvaRectW" oninput="calcAreaFromDims()" placeholder="Width">
+                             <select class="unit-select" id="qvaRectUnitW" onchange="syncDimUnitsQVA('qvaRectUnitW'); calcAreaFromDims()">
+                                 <option value="mm">mm</option>
+                                 <option value="inch">inch</option>
+                             </select>
+                        </div>
+                        <div class="input-wrapper no-label-group" style="flex: 1;">
+                             <input type="text" class="input-with-select" inputmode="decimal" id="qvaRectH" oninput="calcAreaFromDims()" placeholder="Height">
+                             <select class="unit-select" id="qvaRectUnitH" onchange="syncDimUnitsQVA('qvaRectUnitH'); calcAreaFromDims()">
+                                 <option value="mm">mm</option>
+                                 <option value="inch">inch</option>
+                             </select>
+                        </div>
+                    </div>
+
+                    <div id="qvaAreaCircWrapper" style="display: none; margin-bottom: 10px;">
+                         <div class="input-wrapper no-label-group">
+                             <input type="text" class="input-with-select" inputmode="decimal" id="qvaCircD" oninput="calcAreaFromDims()" placeholder="Diameter">
+                             <select class="unit-select" id="qvaCircUnit" onchange="calcAreaFromDims()">
+                                 <option value="mm">mm</option>
+                                 <option value="inch">inch</option>
+                             </select>
+                         </div>
+                    </div>
+
+                    <div style="position: relative;" class="no-label-group">
+                        <input type="text" class="input-with-select" inputmode="decimal" id="qvaArea" oninput="handleQVAInput('Area')" onblur="formatDynamicInput('qvaArea', 'qvaAreaUnit')" placeholder="0">
+                        <select class="unit-select" id="qvaAreaUnit" onchange="if(document.getElementById('qvaAreaMethod').value !== 'direct') calcAreaFromDims(); calculateQVA(); formatDynamicInput('qvaArea', 'qvaAreaUnit')">
+                            <option value="sqm">m&sup2;</option>
+                            <option value="sqft">ft&sup2;</option>
+                        </select>
+                        <button class="copy-btn" onclick="copyValue('qvaArea', this)" title="Copy value">📋</button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="clear-container">
+                <button class="btn btn-clear" onclick="clearQVACalculator()">Clear</button>
+            </div>
+        </div>
         
         <div class="calc-hero">
             <h3>Duct Velocity Calculator</h3>
@@ -437,7 +540,7 @@
                 <div class="input-wrapper">
                     <label>Duct Width (W)</label>
                     <input type="text" class="input-with-select" inputmode="decimal" id="calcWidth" oninput="calcDuctVelocity()" onblur="formatDynamicInput('calcWidth', 'dimUnitW')" placeholder="0">
-                    <select class="unit-select" id="dimUnitW" onchange="syncDimUnits('dimUnitW'); calcDuctVelocity(); formatDynamicInput('calcWidth', 'dimUnitW')">
+                    <select class="unit-select" id="dimUnitW" onchange="syncDimUnits('dimUnitW', 'dimUnitH'); calcDuctVelocity(); formatDynamicInput('calcWidth', 'dimUnitW')">
                         <option value="mm">mm</option>
                         <option value="inch">inch</option>
                     </select>
@@ -446,7 +549,7 @@
                 <div class="input-wrapper">
                     <label>Duct Height (H)</label>
                     <input type="text" class="input-with-select" inputmode="decimal" id="calcHeight" oninput="calcDuctVelocity()" onblur="formatDynamicInput('calcHeight', 'dimUnitH')" placeholder="0">
-                    <select class="unit-select" id="dimUnitH" onchange="syncDimUnits('dimUnitH'); calcDuctVelocity(); formatDynamicInput('calcHeight', 'dimUnitH')">
+                    <select class="unit-select" id="dimUnitH" onchange="syncDimUnits('dimUnitH', 'dimUnitW'); calcDuctVelocity(); formatDynamicInput('calcHeight', 'dimUnitH')">
                         <option value="mm">mm</option>
                         <option value="inch">inch</option>
                     </select>
@@ -465,6 +568,74 @@
                         <option value="fpm">FPM</option>
                     </select>
                     <button class="copy-btn" onclick="copyValue('calcResult', this)" title="Copy value">📋</button>
+                </div>
+
+                <div class="span-full" style="border-top: 1px dashed var(--border-color); padding-top: 20px; margin-top: 5px;">
+                    <h4 style="color: var(--sys-blue-mid); margin: 0 0 10px 0; font-size: 1rem;">⮑ Grille Distribution</h4>
+                </div>
+                
+                <div class="input-wrapper">
+                    <label>Grille Quantity</label>
+                    <input type="text" inputmode="numeric" id="grilleQty" oninput="calcDuctVelocity()" placeholder="1" value="1">
+                </div>
+                
+                <div class="input-wrapper">
+                    <label>Grille Width</label>
+                    <input type="text" class="input-with-select" inputmode="decimal" id="grilleW" oninput="calcDuctVelocity()" placeholder="0">
+                    <select class="unit-select" id="grilleUnitW" onchange="syncDimUnits('grilleUnitW', 'grilleUnitH'); calcDuctVelocity()">
+                        <option value="mm">mm</option>
+                        <option value="inch">inch</option>
+                    </select>
+                </div>
+                
+                <div class="input-wrapper">
+                    <label>Grille Height</label>
+                    <input type="text" class="input-with-select" inputmode="decimal" id="grilleH" oninput="calcDuctVelocity()" placeholder="0">
+                    <select class="unit-select" id="grilleUnitH" onchange="syncDimUnits('grilleUnitH', 'grilleUnitW'); calcDuctVelocity()">
+                        <option value="mm">mm</option>
+                        <option value="inch">inch</option>
+                    </select>
+                </div>
+                
+                <div class="input-wrapper" style="grid-column: span 1;">
+                    <label>Airflow / Grille</label>
+                    <input type="text" class="input-with-select" id="grilleVolOut" readonly placeholder="0">
+                    <select class="unit-select" id="grilleVolUnit" onchange="calcDuctVelocity()">
+                        <option value="cmh">m&sup3;/h</option>
+                        <option value="cms">m&sup3;/s</option>
+                        <option value="cfm">CFM</option>
+                        <option value="lps">l/s</option>
+                    </select>
+                    <button class="copy-btn" onclick="copyValue('grilleVolOut', this)" title="Copy value">📋</button>
+                </div>
+                
+                <div class="input-wrapper" style="grid-column: span 2;">
+                    <label>Velocity / Grille</label>
+                    <input type="text" class="input-with-select" id="grilleVelOut" readonly placeholder="0">
+                    <select class="unit-select" id="grilleVelUnit" onchange="calcDuctVelocity()">
+                        <option value="ms">m/s</option>
+                        <option value="fpm">FPM</option>
+                    </select>
+                    <button class="copy-btn" onclick="copyValue('grilleVelOut', this)" title="Copy value">📋</button>
+                </div>
+
+                <div class="span-full" style="border-top: 1px dashed var(--border-color); padding-top: 20px; margin-top: 5px;">
+                    <h4 style="color: var(--sys-blue-mid); margin: 0 0 10px 0; font-size: 1rem;">⮑ Louvre Velocity</h4>
+                </div>
+                
+                <div class="input-wrapper">
+                    <label>Free Area (%)</label>
+                    <input type="text" inputmode="decimal" id="louvreFA" oninput="calcDuctVelocity()" placeholder="50" value="50">
+                </div>
+                
+                <div class="input-wrapper" style="grid-column: span 2;">
+                    <label>Air Velocity at Louvre</label>
+                    <input type="text" class="input-with-select" id="louvreVelOut" readonly placeholder="0">
+                    <select class="unit-select" id="louvreVelUnit" onchange="calcDuctVelocity()">
+                        <option value="ms">m/s</option>
+                        <option value="fpm">FPM</option>
+                    </select>
+                    <button class="copy-btn" onclick="copyValue('louvreVelOut', this)" title="Copy value">📋</button>
                 </div>
 
             </div>
@@ -592,17 +763,25 @@
             const dynamicDecMap = {
                 'cmh': 0, 'cms': 4, 'lps': 1, 'cfm': 0,
                 'mm': 0, 'inch': 2,
-                'ms': 2, 'fpm': 0
+                'ms': 2, 'fpm': 0,
+                'sqm': 3, 'sqft': 2 // Area units
             };
             return dynamicDecMap[unitString] !== undefined ? dynamicDecMap[unitString] : 2;
         }
 
-        // Sync Dimension Units (Width and Height)
-        function syncDimUnits(sourceId) {
+        // Universal Dimension Unit Syncer
+        function syncDimUnits(sourceId, targetId) {
             const sourceSelect = document.getElementById(sourceId);
-            const targetId = (sourceId === 'dimUnitW') ? 'dimUnitH' : 'dimUnitW';
             const targetSelect = document.getElementById(targetId);
-            targetSelect.value = sourceSelect.value;
+            if (targetSelect) targetSelect.value = sourceSelect.value;
+        }
+
+        // QVA Specific Syncer
+        function syncDimUnitsQVA(sourceId) {
+            const sourceSelect = document.getElementById(sourceId);
+            const targetId = (sourceId === 'qvaRectUnitW') ? 'qvaRectUnitH' : 'qvaRectUnitW';
+            const targetSelect = document.getElementById(targetId);
+            if (targetSelect) targetSelect.value = sourceSelect.value;
         }
 
         // --- Copy to Clipboard Function (Software Friendly) ---
@@ -690,7 +869,7 @@
             });
         }
 
-        // --- Unified Duct Velocity Calculator Logic ---
+        // --- EXTENDED Duct Velocity Calculator Logic ---
         function calcDuctVelocity() {
             let volRaw = document.getElementById('calcVol').value.replace(/,/g, '');
             let wRaw = document.getElementById('calcWidth').value.replace(/,/g, '');
@@ -699,6 +878,11 @@
             let vol = parseFloat(volRaw);
             let w = parseFloat(wRaw);
             let h = parseFloat(hRaw);
+
+            let volUnit = document.getElementById('volUnit').value;
+            let wUnit = document.getElementById('dimUnitW').value;
+            let hUnit = document.getElementById('dimUnitH').value;
+            let velUnit = document.getElementById('velUnit').value;
 
             // 1. Ratio Logic (Independent of Volume)
             if (!isNaN(w) && !isNaN(h) && w > 0 && h > 0) {
@@ -709,40 +893,254 @@
                 document.getElementById('calcRatio').value = '';
             }
 
-            // 2. Velocity Logic (Dependent on Volume)
-            let volUnit = document.getElementById('volUnit').value;
-            let wUnit = document.getElementById('dimUnitW').value;
-            let hUnit = document.getElementById('dimUnitH').value;
-            let velUnit = document.getElementById('velUnit').value;
-
-            if (!isNaN(vol) && vol > 0 && !isNaN(w) && w > 0 && !isNaN(h) && h > 0) {
-                // Standardize Volume to m3/s for internal calculation
-                let cms = 0;
+            // 2. Base Conversions
+            let cms = undefined;
+            if (!isNaN(vol) && vol > 0) {
                 if (volUnit === 'cmh') cms = vol / 3600;
                 else if (volUnit === 'cms') cms = vol;
                 else if (volUnit === 'lps') cms = vol / 1000;
                 else if (volUnit === 'cfm') cms = vol * 0.000471947443; 
+            }
 
-                // Standardize Dimensions to meters
+            let areaM2 = undefined;
+            if (!isNaN(w) && w > 0 && !isNaN(h) && h > 0) {
                 let w_m = (wUnit === 'mm') ? w / 1000 : w * 0.0254;
                 let h_m = (hUnit === 'mm') ? h / 1000 : h * 0.0254;
+                areaM2 = w_m * h_m;
+            }
 
-                // Calculate Area and baseline Velocity in m/s
-                let areaM2 = w_m * h_m;
+            // 3. Main Velocity Logic
+            if (cms !== undefined && areaM2 !== undefined) {
                 let vel_ms = cms / areaM2;
-
-                // Output to selected target unit
                 let finalVel = (velUnit === 'ms') ? vel_ms : vel_ms * 196.850394;
                 document.getElementById('calcResult').value = finalVel.toLocaleString('en-US', { maximumFractionDigits: getDynamicDecimals(velUnit) });
             } else {
                 document.getElementById('calcResult').value = '';
             }
+
+            // --- 4. GRILLE EXTENSION ---
+            let grilleQty = parseFloat(document.getElementById('grilleQty').value);
+            let gW = parseFloat(document.getElementById('grilleW').value.replace(/,/g, ''));
+            let gH = parseFloat(document.getElementById('grilleH').value.replace(/,/g, ''));
+            let gWUnit = document.getElementById('grilleUnitW').value;
+            let gHUnit = document.getElementById('grilleUnitH').value;
+            let gVolUnit = document.getElementById('grilleVolUnit').value;
+            let gVelUnit = document.getElementById('grilleVelUnit').value;
+
+            document.getElementById('grilleVolOut').value = '';
+            document.getElementById('grilleVelOut').value = '';
+
+            if (cms !== undefined && !isNaN(grilleQty) && grilleQty > 0) {
+                let g_cms = cms / grilleQty;
+                
+                // Set Vol/Grille Output
+                let gVol_final = (gVolUnit === 'cmh') ? g_cms * 3600 : (gVolUnit === 'lps') ? g_cms * 1000 : (gVolUnit === 'cfm') ? g_cms / 0.000471947443 : g_cms;
+                document.getElementById('grilleVolOut').value = gVol_final.toLocaleString('en-US', { maximumFractionDigits: getDynamicDecimals(gVolUnit) });
+
+                // Set Vel/Grille Output
+                if (!isNaN(gW) && gW > 0 && !isNaN(gH) && gH > 0) {
+                    let gw_m = (gWUnit === 'mm') ? gW / 1000 : gW * 0.0254;
+                    let gh_m = (gHUnit === 'mm') ? gH / 1000 : gH * 0.0254;
+                    let gArea_m2 = gw_m * gh_m;
+
+                    let gVel_ms = g_cms / gArea_m2;
+                    let gVel_final = (gVelUnit === 'ms') ? gVel_ms : gVel_ms * 196.850394;
+                    document.getElementById('grilleVelOut').value = gVel_final.toLocaleString('en-US', { maximumFractionDigits: getDynamicDecimals(gVelUnit) });
+                }
+            }
+
+            // --- 5. LOUVRE EXTENSION ---
+            let lFA = parseFloat(document.getElementById('louvreFA').value);
+            let lVelUnit = document.getElementById('louvreVelUnit').value;
+            
+            document.getElementById('louvreVelOut').value = '';
+
+            if (cms !== undefined && areaM2 !== undefined && !isNaN(lFA) && lFA > 0) {
+                let effective_area = areaM2 * (lFA / 100);
+                let lVel_ms = cms / effective_area;
+                let lVel_final = (lVelUnit === 'ms') ? lVel_ms : lVel_ms * 196.850394;
+                document.getElementById('louvreVelOut').value = lVel_final.toLocaleString('en-US', { maximumFractionDigits: getDynamicDecimals(lVelUnit) });
+            }
         }
 
         function clearCalculator() {
-            const fields = ['calcVol', 'calcWidth', 'calcHeight', 'calcResult', 'calcRatio'];
+            const fields = [
+                'calcVol', 'calcWidth', 'calcHeight', 'calcResult', 'calcRatio', 
+                'grilleW', 'grilleH', 'grilleVolOut', 'grilleVelOut', 'louvreVelOut'
+            ];
             fields.forEach(id => { document.getElementById(id).value = ''; });
+            document.getElementById('grilleQty').value = '1';
+            document.getElementById('louvreFA').value = '50';
         }
+
+
+        // --- Q = V x A Calculator Logic ---
+        let qvaHistory = [];
+
+        function handleQVAInput(field) {
+            let rawVal = document.getElementById('qva' + field).value.replace(/,/g, '');
+
+            // Reset visual highlights
+            ['Vol', 'Vel', 'Area'].forEach(f => document.getElementById('qva' + f).classList.remove('qva-highlight'));
+
+            if (rawVal === '') {
+                // If user clears a field manually, remove it from the active history
+                qvaHistory = qvaHistory.filter(f => f !== field);
+                return;
+            }
+
+            // Update history to track the two most recently touched fields
+            qvaHistory = qvaHistory.filter(f => f !== field);
+            qvaHistory.push(field);
+
+            calculateQVA();
+        }
+
+        function calculateQVA() {
+            if (qvaHistory.length < 2) return;
+
+            // Target is the field that is NOT in the last 2 of the history array
+            let target = ['Vol', 'Vel', 'Area'].find(f => !qvaHistory.slice(-2).includes(f));
+
+            let volRaw = document.getElementById('qvaVol').value.replace(/,/g, '');
+            let velRaw = document.getElementById('qvaVel').value.replace(/,/g, '');
+            let areaRaw = document.getElementById('qvaArea').value.replace(/,/g, '');
+
+            let vol = parseFloat(volRaw);
+            let vel = parseFloat(velRaw);
+            let area = parseFloat(areaRaw);
+
+            let uVol = document.getElementById('qvaVolUnit').value;
+            let uVel = document.getElementById('qvaVelUnit').value;
+            let uArea = document.getElementById('qvaAreaUnit').value;
+
+            // Convert inputs to base metric (cms, m/s, sqm) for uniform math
+            let v_cms, v_ms, v_sqm;
+
+            if (!isNaN(vol)) {
+                v_cms = (uVol === 'cmh') ? vol / 3600 : (uVol === 'lps') ? vol / 1000 : (uVol === 'cfm') ? vol * 0.000471947443 : vol;
+            }
+            if (!isNaN(vel)) {
+                v_ms = (uVel === 'fpm') ? vel / 196.850394 : vel;
+            }
+            if (!isNaN(area)) {
+                v_sqm = (uArea === 'sqft') ? area * 0.09290304 : area;
+            }
+
+            // Calculate and inject target value
+            if (target === 'Vol') {
+                if (v_ms !== undefined && v_sqm !== undefined) {
+                    let ans_cms = v_ms * v_sqm;
+                    let ans_final = (uVol === 'cmh') ? ans_cms * 3600 : (uVol === 'lps') ? ans_cms * 1000 : (uVol === 'cfm') ? ans_cms / 0.000471947443 : ans_cms;
+                    document.getElementById('qvaVol').value = ans_final.toLocaleString('en-US', { maximumFractionDigits: getDynamicDecimals(uVol) });
+                    document.getElementById('qvaVol').classList.add('qva-highlight');
+                }
+            } else if (target === 'Vel') {
+                if (v_cms !== undefined && v_sqm !== undefined && v_sqm > 0) {
+                    let ans_ms = v_cms / v_sqm;
+                    let ans_final = (uVel === 'fpm') ? ans_ms * 196.850394 : ans_ms;
+                    document.getElementById('qvaVel').value = ans_final.toLocaleString('en-US', { maximumFractionDigits: getDynamicDecimals(uVel) });
+                    document.getElementById('qvaVel').classList.add('qva-highlight');
+                }
+            } else if (target === 'Area') {
+                if (v_cms !== undefined && v_ms !== undefined && v_ms > 0) {
+                    
+                    // Smart Override: If they are actively computing Area via Vol & Vel,
+                    // we must ensure the dimension sub-inputs aren't confusing them.
+                    document.getElementById('qvaAreaMethod').value = 'direct';
+                    toggleQVAAreaInputs();
+
+                    let ans_sqm = v_cms / v_ms;
+                    let ans_final = (uArea === 'sqft') ? ans_sqm / 0.09290304 : ans_sqm;
+                    document.getElementById('qvaArea').value = ans_final.toLocaleString('en-US', { maximumFractionDigits: getDynamicDecimals(uArea) });
+                    document.getElementById('qvaArea').classList.add('qva-highlight');
+                }
+            }
+        }
+
+        // Handle Dimension to Area Conversion
+        function toggleQVAAreaInputs() {
+            const method = document.getElementById('qvaAreaMethod').value;
+            document.getElementById('qvaAreaRectWrapper').style.display = (method === 'rectangle') ? 'flex' : 'none';
+            document.getElementById('qvaAreaCircWrapper').style.display = (method === 'circle') ? 'block' : 'none';
+
+            const areaInput = document.getElementById('qvaArea');
+            if (method !== 'direct') {
+                areaInput.readOnly = true;
+                areaInput.style.backgroundColor = '#e2e8f0'; 
+                areaInput.style.color = 'var(--text-muted)';
+            } else {
+                areaInput.readOnly = false;
+                areaInput.style.backgroundColor = 'var(--input-bg)';
+                areaInput.style.color = 'var(--text-main)';
+            }
+            if (method !== 'direct') calcAreaFromDims();
+        }
+
+        function calcAreaFromDims() {
+            const method = document.getElementById('qvaAreaMethod').value;
+            if (method === 'direct') return;
+
+            let area_sqm = 0;
+            let hasValidDims = false;
+
+            if (method === 'rectangle') {
+                let wRaw = document.getElementById('qvaRectW').value.replace(/,/g, '');
+                let hRaw = document.getElementById('qvaRectH').value.replace(/,/g, '');
+                let unit = document.getElementById('qvaRectUnitW').value;
+
+                let w = parseFloat(wRaw);
+                let h = parseFloat(hRaw);
+
+                if (!isNaN(w) && !isNaN(h) && w > 0 && h > 0) {
+                    let w_m = (unit === 'mm') ? w / 1000 : w * 0.0254;
+                    let h_m = (unit === 'mm') ? h / 1000 : h * 0.0254;
+                    area_sqm = w_m * h_m;
+                    hasValidDims = true;
+                }
+            } else if (method === 'circle') {
+                let dRaw = document.getElementById('qvaCircD').value.replace(/,/g, '');
+                let unit = document.getElementById('qvaCircUnit').value;
+
+                let d = parseFloat(dRaw);
+                if (!isNaN(d) && d > 0) {
+                    let d_m = (unit === 'mm') ? d / 1000 : d * 0.0254;
+                    let r_m = d_m / 2;
+                    area_sqm = Math.PI * r_m * r_m;
+                    hasValidDims = true;
+                }
+            }
+
+            if (hasValidDims) {
+                let outUnit = document.getElementById('qvaAreaUnit').value;
+                let finalArea = (outUnit === 'sqft') ? area_sqm / 0.09290304 : area_sqm;
+                
+                document.getElementById('qvaArea').value = finalArea.toLocaleString('en-US', { maximumFractionDigits: getDynamicDecimals(outUnit) });
+                
+                // Manually force Area into active calculation history
+                qvaHistory = qvaHistory.filter(f => f !== 'Area');
+                qvaHistory.push('Area');
+                calculateQVA();
+            } else {
+                document.getElementById('qvaArea').value = '';
+                // Run calculateQVA to clear outputs if input is incomplete
+                qvaHistory = qvaHistory.filter(f => f !== 'Area');
+                calculateQVA();
+            }
+        }
+
+        function clearQVACalculator() {
+            const fields = ['qvaVol', 'qvaVel', 'qvaArea', 'qvaRectW', 'qvaRectH', 'qvaCircD'];
+            fields.forEach(id => { 
+                const el = document.getElementById(id);
+                if(el) {
+                    el.value = ''; 
+                    el.classList.remove('qva-highlight');
+                }
+            });
+            qvaHistory = []; // Reset history tracking
+        }
+
 
         // --- Formatting and Utilities ---
         function clearGroup(factorObject) {
