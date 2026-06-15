@@ -153,8 +153,8 @@ function loadLinks() {
             {"id":3,"name":"AAW Axial Fans","url":"https://www.systemair.com/en-my/products/fans/axial-fans/aaw"},
             {"id":4,"name":"K A/AL Fan","url":"https://www.systemair.com/en-my/products/fans/duct-fans/circular-duct-fans"},
             {"id":5,"name":"CDRE/D","url":"https://www.systemair.com/en-my/products/fans/duct-fans/square-duct-fans/cdr"},
-            {"id":6,"name":"MUB(A)/T","url":"https://www.systemair.com/en-my/products/fans/duct-fans/insulated-duct-fans/mub/mub-t"},
-            {"id":7,"name":"MUB(A)","url":"https://www.systemair.com/en-my/products/fans/duct-fans/insulated-duct-fans/mub"},
+            {"id":6,"name":"MUB T","url":"https://www.systemair.com/en-my/products/fans/duct-fans/insulated-duct-fans/mub/mub-t"},
+            {"id":7,"name":"MUB","url":"https://www.systemair.com/en-my/products/fans/duct-fans/insulated-duct-fans/mub/mub#tech-specs-features"},
             {"id":8,"name":"BKF Duct Fan","url":"https://www.systemair.com/en-my/products/fans/duct-fans/rectangular-duct-fans/bkf"},
             {"id":9,"name":"ASP Centrifugal","url":"https://www.systemair.com/en-my/products/selection-software/centrifugal-fans?ecom-category-id-MULTI=90101"}
         ]; 
