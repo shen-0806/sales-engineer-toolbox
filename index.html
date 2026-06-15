@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sales Engineer Toolbox</title>
     <link rel="icon" type="image/png" href="tool-box.png">
-    <link rel="stylesheet" href="style.css?v=2">
+    <link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
 
@@ -91,6 +91,7 @@
                 <div class="input-wrapper"><label>H</label><input type="text" class="input-with-select" id="calcHeight" oninput="runAllCalculations()" placeholder="0"><select class="unit-select" id="dimUnitH" onchange="syncDimUnits('dimUnitH','dimUnitW'); runAllCalculations()"><option value="mm">mm</option><option value="inch">in</option></select></div>
                 <div class="input-wrapper"><label>Ratio</label><input type="text" id="calcRatio" readonly placeholder="1 : 1"></div>
                 <div class="input-wrapper span-full"><label>Velocity (Duct)</label><input type="text" class="input-with-select" id="calcResult" readonly placeholder="0"><select class="unit-select" id="velUnit" onchange="runAllCalculations()"><option value="ms">m/s</option><option value="fpm">FPM</option></select><button class="copy-btn" onclick="copyValue('calcResult', this)">📋</button></div>
+                <div class="clear-container span-full"><button class="btn btn-clear" style="margin-top: 0;" onclick="clearDuct()">Clear</button></div>
 
                 <div class="span-full" style="border-top:1px dashed var(--border-color); padding-top:20px; margin-top:5px;"><h4 style="color: var(--sys-blue-mid); margin: 0 0 10px 0; font-size: 1rem;">Grille</h4></div>
                 <div class="input-wrapper span-full">
@@ -106,6 +107,7 @@
                 <div class="input-wrapper"><label>Free Area %</label><input type="text" id="grilleFA" oninput="runAllCalculations()" value="50"></div>
                 <div class="input-wrapper"><label>Flow Rate/Grille</label><input type="text" class="input-with-select" id="grilleVolOut" readonly><select class="unit-select" id="grilleVolUnit" onchange="syncDimUnits('grilleVolUnit', 'volUnitGrille'); runAllCalculations()"><option value="cmh">m³/h</option><option value="cms">m³/s</option><option value="cfm">CFM</option><option value="lps">l/s</option></select><button class="copy-btn" onclick="copyValue('grilleVolOut', this)">📋</button></div>
                 <div class="input-wrapper"><label>Velocity/Grille</label><input type="text" class="input-with-select" id="grilleVelOut" readonly><select class="unit-select" id="grilleVelUnit" onchange="runAllCalculations()"><option value="ms">m/s</option><option value="fpm">FPM</option></select><button class="copy-btn" onclick="copyValue('grilleVelOut', this)">📋</button></div>
+                <div class="clear-container span-full"><button class="btn btn-clear" style="margin-top: 0;" onclick="clearGrille()">Clear</button></div>
 
                 <div class="span-full" style="border-top:1px dashed var(--border-color); padding-top:20px; margin-top:5px;"><h4 style="color: var(--sys-blue-mid); margin: 0 0 10px 0; font-size: 1rem;">Louvre</h4></div>
                 <div class="input-wrapper span-full">
@@ -119,8 +121,8 @@
                 <div class="input-wrapper"><label>H</label><input type="text" class="input-with-select" id="louvreH" oninput="runAllCalculations()" placeholder="0"><select class="unit-select" id="louvreUnitH" onchange="syncDimUnits('louvreUnitH','louvreUnitW'); runAllCalculations()"><option value="mm">mm</option><option value="inch">in</option></select></div>
                 <div class="input-wrapper"><label>Free Area %</label><input type="text" id="louvreFA" oninput="runAllCalculations()" value="50"></div>
                 <div class="input-wrapper span-full"><label>Velocity (Louvre)</label><input type="text" class="input-with-select" id="louvreVelOut" readonly><select class="unit-select" id="louvreVelUnit" onchange="runAllCalculations()"><option value="ms">m/s</option><option value="fpm">FPM</option></select><button class="copy-btn" onclick="copyValue('louvreVelOut', this)">📋</button></div>
+                <div class="clear-container span-full"><button class="btn btn-clear" style="margin-top: 0;" onclick="clearLouvre()">Clear</button></div>
             </div>
-            <div class="clear-container"><button class="btn btn-clear" onclick="clearCalculator()">Clear</button></div>
         </div>
 
         <div class="container" id="section-converter">
@@ -165,6 +167,6 @@
 
     </div>
 
-    <script src="script.js?v=3"></script>
+    <script src="script.js?v=4"></script>
 </body>
 </html>

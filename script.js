@@ -82,9 +82,19 @@ function runAllCalculations() {
         document.getElementById('louvreVelOut').value = (velU === 'ms' ? lV : lV*196.85).toLocaleString('en-US', {maximumFractionDigits: getDec(velU)});
     }
 }
-function clearCalculator() {
-    ['calcVol','calcVolGrille','calcVolLouvre','calcWidth','calcHeight','calcResult','calcRatio','grilleW','grilleH','grilleVolOut','grilleVelOut','louvreW','louvreH','louvreVelOut'].forEach(id => document.getElementById(id).value='');
-    document.getElementById('grilleQty').value = '1'; document.getElementById('grilleFA').value = '50'; document.getElementById('louvreFA').value = '50';
+
+function clearDuct() {
+    ['calcVol', 'calcWidth', 'calcHeight', 'calcResult', 'calcRatio'].forEach(id => document.getElementById(id).value = '');
+}
+
+function clearGrille() {
+    ['calcVolGrille', 'grilleW', 'grilleH', 'grilleVolOut', 'grilleVelOut'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('grilleQty').value = '1'; document.getElementById('grilleFA').value = '50';
+}
+
+function clearLouvre() {
+    ['calcVolLouvre', 'louvreW', 'louvreH', 'louvreVelOut'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('louvreFA').value = '50';
 }
 
 // --- QVA Calculator ---
