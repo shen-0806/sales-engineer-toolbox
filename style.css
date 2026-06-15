@@ -9,7 +9,7 @@
     --text-muted: #64748b;
     --border-color: #cbd5e1;
     --input-bg: #ffffff;
-    --readonly-bg: #f8fafc; /* Subtle grey for restricted fields in Light mode */
+    --readonly-bg: #f8fafc;
     --readonly-text: #64748b;
     --highlight-bg: #e0e7ff;
     --highlight-border: #a5b4fc;
@@ -26,10 +26,12 @@
     --text-muted: #94a3b8;
     --border-color: #334155;
     --input-bg: #0f172a; 
-    --readonly-bg: #111827; /* Distinctly darker for restricted fields in Dark mode */
+    --readonly-bg: #111827; 
     --readonly-text: #64748b; 
-    --highlight-bg: rgba(59, 130, 246, 0.15);
-    --highlight-border: #3b82f6;
+    
+    /* --- THE FIX: Made the highlight solid and vibrant for Dark Mode --- */
+    --highlight-bg: #1e3a8a; /* Deep, vivid blue */
+    --highlight-border: #60a5fa; /* Light blue border to make it pop */
 }
 
 /* Smooth scrolling for anchor links */
@@ -151,7 +153,7 @@ h4 { color: var(--sys-blue-mid); margin: 0 0 10px 0; font-size: 1rem; }
 .input-wrapper label { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; }
 .input-wrapper:focus-within label { color: var(--sys-blue-light); }
 
-/* Standard Inputs (FIXED: Removed select from here) */
+/* Standard Inputs */
 input[type="text"], input[type="number"] { 
     width: 100%; 
     padding: 12px 75px 12px 14px; 
@@ -171,12 +173,12 @@ input[type="text"]:focus, input[type="number"]:focus {
     box-shadow: 0 0 0 3px rgba(0, 73, 133, 0.15); 
 }
 
-/* Restricted / Read-Only Inputs (Ratio, Velocity Duct, Velocity Grille, etc.) */
+/* Restricted / Read-Only Inputs (Highlights them identical to Flow Rate calc results) */
 input[readonly] { 
-    background-color: var(--readonly-bg) !important; 
-    border-color: var(--border-color) !important; 
-    color: var(--readonly-text) !important; 
-    font-weight: 600 !important; 
+    background-color: var(--highlight-bg) !important; 
+    border-color: var(--highlight-border) !important; 
+    color: var(--sys-blue-dark) !important; 
+    font-weight: 700 !important; 
     cursor: not-allowed;
 }
 
@@ -220,13 +222,14 @@ input[readonly] {
 .del-badge { background-color: #ef4444; } 
 .manage-mode .action-badges { display: flex; }
 .manage-mode .link-item { cursor: grab; }
-.manage-mode .btn-link { background-color: var(--readonly-bg); color: var(--text-muted); border: 1px dashed var(--text-muted); pointer-events: none; box-shadow: none; }
+.manage-mode .btn-link { background-color: var(--highlight-bg); color: var(--text-muted); border: 1px dashed var(--text-muted); pointer-events: none; box-shadow: none; }
 .link-item.dragging { opacity: 0.4; transform: scale(0.95); }
 
 /* --- specific element styling (Clear / Methods) --- */
 #qvaAreaMethod {
     background-color: var(--input-bg);
     color: var(--text-main);
+    border-color: var(--border-color);
 }
 
 .btn-theme-toggle {
