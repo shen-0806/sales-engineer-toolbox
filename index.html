@@ -82,7 +82,7 @@
             <div class="calc-layout-grid">
                 
                 <div class="span-full" style="padding-top:10px;">
-                    <h4 style="color: var(--sys-blue-mid); margin: 0 0 10px 0; font-size: 1rem;">⮑ Duct</h4>
+                    <h4 style="color: var(--sys-blue-mid); margin: 0 0 10px 0; font-size: 1rem;">Duct</h4>
                 </div>
                 
                 <div class="input-wrapper span-full"><label>Flow Rate (Duct)</label><input type="text" class="input-with-select" id="calcVol" oninput="runAllCalculations()" placeholder="0"><select class="unit-select" id="volUnit" onchange="runAllCalculations()"><option value="cmh">m³/h</option><option value="cms">m³/s</option><option value="cfm">CFM</option><option value="lps">l/s</option></select></div>
@@ -92,7 +92,7 @@
                 <div class="input-wrapper"><label>Ratio</label><input type="text" id="calcRatio" readonly placeholder="1 : 1"></div>
                 <div class="input-wrapper span-full"><label>Velocity (Duct)</label><input type="text" class="input-with-select" id="calcResult" readonly placeholder="0"><select class="unit-select" id="velUnit" onchange="runAllCalculations()"><option value="ms">m/s</option><option value="fpm">FPM</option></select><button class="copy-btn" onclick="copyValue('calcResult', this)">📋</button></div>
 
-                <div class="span-full" style="border-top:1px dashed var(--border-color); padding-top:20px; margin-top:5px;"><h4 style="color: var(--sys-blue-mid); margin: 0 0 10px 0; font-size: 1rem;">⮑ Grille</h4></div>
+                <div class="span-full" style="border-top:1px dashed var(--border-color); padding-top:20px; margin-top:5px;"><h4 style="color: var(--sys-blue-mid); margin: 0 0 10px 0; font-size: 1rem;">Grille</h4></div>
                 <div class="input-wrapper span-full">
                     <label>Flow Rate (Grille)</label>
                     <input type="text" class="input-with-select" id="calcVolGrille" oninput="runAllCalculations()" placeholder="0">
@@ -107,7 +107,7 @@
                 <div class="input-wrapper"><label>Flow Rate/Grille</label><input type="text" class="input-with-select" id="grilleVolOut" readonly><select class="unit-select" id="grilleVolUnit" onchange="syncDimUnits('grilleVolUnit', 'volUnitGrille'); runAllCalculations()"><option value="cmh">m³/h</option><option value="cms">m³/s</option><option value="cfm">CFM</option><option value="lps">l/s</option></select><button class="copy-btn" onclick="copyValue('grilleVolOut', this)">📋</button></div>
                 <div class="input-wrapper"><label>Velocity/Grille</label><input type="text" class="input-with-select" id="grilleVelOut" readonly><select class="unit-select" id="grilleVelUnit" onchange="runAllCalculations()"><option value="ms">m/s</option><option value="fpm">FPM</option></select><button class="copy-btn" onclick="copyValue('grilleVelOut', this)">📋</button></div>
 
-                <div class="span-full" style="border-top:1px dashed var(--border-color); padding-top:20px; margin-top:5px;"><h4 style="color: var(--sys-blue-mid); margin: 0 0 10px 0; font-size: 1rem;">⮑ Louvre</h4></div>
+                <div class="span-full" style="border-top:1px dashed var(--border-color); padding-top:20px; margin-top:5px;"><h4 style="color: var(--sys-blue-mid); margin: 0 0 10px 0; font-size: 1rem;">Louvre</h4></div>
                 <div class="input-wrapper span-full">
                     <label>Flow Rate (Louvre)</label>
                     <input type="text" class="input-with-select" id="calcVolLouvre" oninput="runAllCalculations()" placeholder="0">
