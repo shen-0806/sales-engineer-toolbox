@@ -131,7 +131,7 @@ function calculateQVA() {
 function clearQVACalculator(){ ['qvaVol','qvaVel','qvaArea','qvaRectW','qvaRectH','qvaCircD'].forEach(id=>{let e=document.getElementById(id);if(e){e.value='';e.classList.remove('qva-highlight');}}); qvaHistory=[]; }
 
 // --- Custom Links ---
-const storageKey='systemairCompanyLinksV2'; let isManageMode=false, draggedElement=null;
+const storageKey='systemairCompanyLinksV3'; let isManageMode=false, draggedElement=null;
 
 // --- Initialization ---
 document.addEventListener("DOMContentLoaded", () => {
