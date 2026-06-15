@@ -145,7 +145,7 @@ function calculateQVA() {
 function clearQVACalculator(){ ['qvaVol','qvaVel','qvaArea','qvaRectW','qvaRectH','qvaCircD'].forEach(id=>{let e=document.getElementById(id);if(e){e.value='';e.classList.remove('qva-highlight');}}); qvaHistory=[]; }
 
 // --- Custom Links ---
-const storageKey='systemairCompanyLinksV3'; let isManageMode=false, draggedElement=null;
+const storageKey='systemairCompanyLinksV4'; let isManageMode=false, draggedElement=null;
 
 // --- Initialization ---
 document.addEventListener("DOMContentLoaded", () => {
@@ -166,7 +166,7 @@ function loadLinks() {
             {"id":1,"name":"Systemair MY","url":"https://www.systemair.com/en-my"},
             {"id":2,"name":"AXC Axial Fan","url":"https://www.systemair.com/en-my/products/fans/axial-fans"},
             {"id":3,"name":"AAW Axial Fans","url":"https://www.systemair.com/en-my/products/fans/axial-fans/aaw"},
-            {"id":4,"name":"K A/AL Fan","url":"https://www.systemair.com/en-my/products/fans/duct-fans/circular-duct-fans"},
+            {"id":4,"name":"K A/AL Fan","url":"https://www.systemair.com/en-my/products/fans/duct-fans/circular-duct-fans/k"},
             {"id":5,"name":"CDRE/D","url":"https://www.systemair.com/en-my/products/fans/duct-fans/square-duct-fans/cdr"},
             {"id":6,"name":"MUB T","url":"https://www.systemair.com/en-my/products/fans/duct-fans/insulated-duct-fans/mub/mub-t"},
             {"id":7,"name":"MUB","url":"https://www.systemair.com/en-my/products/fans/duct-fans/insulated-duct-fans/mub/mub"},
