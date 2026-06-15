@@ -1,4 +1,5 @@
 :root {
+    /* Standard Light Mode Palette */
     --sys-blue-dark: #002543;
     --sys-blue-mid: #003a6b;
     --sys-blue-light: #004985;
@@ -9,29 +10,30 @@
     --text-muted: #64748b;
     --border-color: #cbd5e1;
     --input-bg: #ffffff;
-    --readonly-bg: #f8fafc;
-    --readonly-text: #64748b;
     --highlight-bg: #e0e7ff;
     --highlight-border: #a5b4fc;
+    --nav-bg: #1e293b; 
 }
 
 [data-theme="dark"] {
-    --sys-blue-dark: #93c5fd; 
-    --sys-blue-mid: #60a5fa;  
-    --sys-blue-light: #3b82f6;
-    --sys-blue-hover: #2563eb;
-    --bg-color: #0f172a;
-    --container-bg: #1e293b;
-    --text-main: #f8fafc;
-    --text-muted: #94a3b8;
-    --border-color: #334155;
-    --input-bg: #0f172a; 
-    --readonly-bg: #111827; 
-    --readonly-text: #64748b; 
+    /* Google / Incognito Dark Mode Palette */
+    --bg-color: #202124;         /* True Google Dark background */
+    --container-bg: #292a2d;     /* Slightly lighter card background */
+    --text-main: #e8eaed;        /* Crisp, readable off-white */
+    --text-muted: #9aa0a6;       /* Google's standard muted grey */
+    --border-color: #5f6368;     /* Clean, visible border grey */
+    --input-bg: #202124;         /* Inputs match background */
     
-    /* --- THE FIX: Made the highlight solid and vibrant for Dark Mode --- */
-    --highlight-bg: #1e3a8a; /* Deep, vivid blue */
-    --highlight-border: #60a5fa; /* Light blue border to make it pop */
+    /* Calculated/Restricted Result Styling */
+    --highlight-bg: #3c4043;     /* Professional dark grey highlight */
+    --highlight-border: #8ab4f8; /* Classic Google Blue accent for results */
+
+    /* Re-mapping Blue Accents to Neutral/Google Blue */
+    --sys-blue-dark: #e8eaed;    /* Maps dark text to white */
+    --sys-blue-mid: #8ab4f8;     /* Google Blue */
+    --sys-blue-light: #8ab4f8;   /* Google Blue */
+    --sys-blue-hover: #aecbfa;   /* Lighter blue for hovers */
+    --nav-bg: #202124;           /* Navbar blends smoothly with background */
 }
 
 /* Smooth scrolling for anchor links */
@@ -56,7 +58,7 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    background-color: #1e293b;
+    background-color: var(--nav-bg);
     z-index: 1000;
     display: flex;
     justify-content: center;
@@ -67,6 +69,7 @@ body {
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
     box-sizing: border-box;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .sticky-nav::-webkit-scrollbar { display: none; }
@@ -84,6 +87,7 @@ body {
 
 .sticky-nav a:hover {
     background: var(--sys-blue-light);
+    color: #1e293b; /* Dark text on light blue hover in dark mode */
     transform: translateY(-1px);
 }
 
@@ -104,7 +108,7 @@ body {
     max-width: 680px; 
     padding: 35px; 
     border-radius: 12px; 
-    box-shadow: 0 10px 30px rgba(0, 37, 67, 0.05); 
+    box-shadow: 0 10px 30px rgba(0,0,0, 0.1); 
     border-top: 6px solid var(--sys-blue-light); 
     margin-bottom: 30px; 
     box-sizing: border-box; 
@@ -170,7 +174,7 @@ input[type="text"], input[type="number"] {
 input[type="text"]:focus, input[type="number"]:focus { 
     outline: none; 
     border-color: var(--sys-blue-light); 
-    box-shadow: 0 0 0 3px rgba(0, 73, 133, 0.15); 
+    box-shadow: 0 0 0 3px rgba(138, 180, 248, 0.15); 
 }
 
 /* Restricted / Read-Only Inputs (Highlights them identical to Flow Rate calc results) */
@@ -190,18 +194,31 @@ input[readonly] {
     font-weight: 700 !important;
 }
 
+/* The Select Dropdowns */
 .unit-select { position: absolute; right: 38px; top: 36px; border: none; background: transparent; cursor: pointer; font-size: 0.85rem; font-weight: 700; color: var(--sys-blue-mid); outline: none;}
 .unit-select:hover, .unit-select:focus { background-color: var(--highlight-bg); color: var(--sys-blue-dark); border-radius: 4px;}
 .no-label-group .unit-select { top: 12px; }
+
+/* The specific Area Method dropdown */
+#qvaAreaMethod {
+    background-color: var(--input-bg);
+    color: var(--text-main);
+    border-color: var(--border-color);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
 
 .copy-btn { position: absolute; right: 6px; top: 32px; background: none; border: none; cursor: pointer; font-size: 1.1rem; opacity: 0.5; padding: 6px; display: flex; align-items: center; justify-content: center; transition: all 0.2s;}
 .copy-btn:hover { opacity: 1; background-color: var(--highlight-bg); color: var(--sys-blue-dark); border-radius: 6px;}
 .copy-btn:active { transform: scale(0.9); }
 .no-label-group .copy-btn { top: 8px; }
 
+/* Buttons */
 .btn { display: inline-flex; align-items: center; justify-content: center; padding: 10px 16px; border-radius: 6px; font-size: 0.9rem; font-weight: 600; cursor: pointer; border: none; text-decoration: none; transition: all 0.2s ease;}
-.btn-link { background-color: var(--sys-blue-light); color: #FFFFFF; width: 100%; box-sizing: border-box; box-shadow: 0 2px 4px rgba(0, 73, 133, 0.1); }
-.btn-link:hover { background-color: var(--sys-blue-hover); transform: translateY(-1px); box-shadow: 0 4px 10px rgba(0, 73, 133, 0.2); }
+
+.btn-link { background-color: var(--sys-blue-light); color: #FFFFFF; width: 100%; box-sizing: border-box; box-shadow: 0 2px 4px rgba(0,0,0, 0.1); }
+.btn-link:hover { background-color: var(--sys-blue-hover); transform: translateY(-1px); box-shadow: 0 4px 10px rgba(0,0,0, 0.2); }
+
 .btn-add { background-color: var(--sys-blue-dark); color: #FFFFFF; width: 100%; }
 .btn-add:hover { background-color: var(--sys-blue-mid); }
 
@@ -212,6 +229,28 @@ input[readonly] {
 .btn-clear:hover { background-color: var(--highlight-bg); color: var(--text-main); border-color: var(--highlight-border); }
 .clear-container { display: flex; justify-content: flex-end; width: 100%; }
 
+/* Specific Dark Mode Button Overrides for Google Style */
+[data-theme="dark"] .btn-link { 
+    background-color: #3c4043; 
+    color: #8ab4f8; 
+    border: 1px solid #5f6368;
+    box-shadow: none;
+}
+[data-theme="dark"] .btn-link:hover { 
+    background-color: #4a4d51; 
+    border-color: #8ab4f8;
+}
+[data-theme="dark"] .btn-add { 
+    background-color: #8ab4f8; 
+    color: #202124; 
+}
+[data-theme="dark"] .btn-add:hover { 
+    background-color: #aecbfa; 
+}
+[data-theme="dark"] .sticky-nav a:hover {
+    color: #202124;
+}
+
 /* Management Styles */
 .links-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; margin-bottom: 25px; }
 .link-item { position: relative; display: flex; width: 100%; transition: transform 0.2s;}
@@ -219,19 +258,13 @@ input[readonly] {
 .badge-btn { width: 26px; height: 26px; border-radius: 50%; border: 2px solid white; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 11px; color: white; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: transform 0.1s;}
 .badge-btn:hover { transform: scale(1.1); }
 .edit-badge { background-color: var(--sys-blue-mid); }
-.del-badge { background-color: #ef4444; } 
+.del-badge { background-color: #ef4444; border-color: #ef4444; } 
 .manage-mode .action-badges { display: flex; }
 .manage-mode .link-item { cursor: grab; }
 .manage-mode .btn-link { background-color: var(--highlight-bg); color: var(--text-muted); border: 1px dashed var(--text-muted); pointer-events: none; box-shadow: none; }
 .link-item.dragging { opacity: 0.4; transform: scale(0.95); }
 
-/* --- specific element styling (Clear / Methods) --- */
-#qvaAreaMethod {
-    background-color: var(--input-bg);
-    color: var(--text-main);
-    border-color: var(--border-color);
-}
-
+/* Theme Toggle Button */
 .btn-theme-toggle {
     background: rgba(255, 255, 255, 0.15);
     border: none;
@@ -248,11 +281,4 @@ input[readonly] {
 .btn-theme-toggle:hover {
     background: rgba(255, 255, 255, 0.25);
     transform: translateY(-1px);
-}
-
-/* Ensure ALL selects inherit proper colors in Dark Mode */
-[data-theme="dark"] select {
-    background-color: var(--input-bg);
-    color: var(--text-main);
-    border-color: var(--border-color);
 }
