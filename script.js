@@ -145,6 +145,7 @@ const storageKey='systemairCompanyLinksV3'; let isManageMode=false, draggedEleme
 
 // --- Initialization ---
 document.addEventListener("DOMContentLoaded", () => {
+    initTheme(); // Initialize Dark/Light Mode
     loadLinks();
     toggleQVAAreaInputs(); // Ensures Rectangle inputs show immediately on load
 });
@@ -192,3 +193,31 @@ function saveNewOrder() { const c=document.getElementById('linksContainer'), ite
 function addNewLink() { let n=prompt("Name:"), u=prompt("URL:"); if(!n||!u)return; if(!u.startsWith('http')) u='https://'+u; let l=JSON.parse(localStorage.getItem(storageKey))||[]; l.push({id:Date.now(),name:n,url:u}); localStorage.setItem(storageKey,JSON.stringify(l)); renderAllLinks(l); }
 function editLink(id) { let l=JSON.parse(localStorage.getItem(storageKey))||[], i=l.findIndex(x=>x.id===id); if(i>-1){ let n=prompt("Name:",l[i].name), u=prompt("URL:",l[i].url); if(!n||!u)return; if(!u.startsWith('http')) u='https://'+u; l[i].name=n; l[i].url=u; localStorage.setItem(storageKey,JSON.stringify(l)); renderAllLinks(l); } }
 function removeLink(id) { if(confirm("Remove?")){ let l=(JSON.parse(localStorage.getItem(storageKey))||[]).filter(x=>x.id!==id); localStorage.setItem(storageKey,JSON.stringify(l)); renderAllLinks(l); } }
+
+// --- Theme Management ---
+function initTheme() {
+    const savedTheme = localStorage.getItem('siteTheme');
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeButton(savedTheme);
+    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        updateThemeButton('dark');
+    }
+}
+
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('siteTheme', newTheme);
+    updateThemeButton(newTheme);
+}
+
+function updateThemeButton(theme) {
+    const btn = document.getElementById('themeToggle');
+    if (btn) {
+        btn.innerText = theme === 'dark' ? '☀️' : '🌙';
+    }
+}

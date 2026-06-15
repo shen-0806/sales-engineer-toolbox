@@ -34,7 +34,7 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    background-color: var(--sys-blue-dark);
+    background-color: #1e293b;
     z-index: 1000;
     display: flex;
     justify-content: center;
@@ -171,3 +171,47 @@ input[readonly] { background-color: var(--highlight-bg) !important; border-color
 .manage-mode .link-item:active { cursor: grabbing; }
 .manage-mode .btn-link { background-color: #e2e8f0; color: var(--text-muted); border: 1px dashed #94a3b8; pointer-events: none; box-shadow: none; }
 .link-item.dragging { opacity: 0.4; transform: scale(0.95); }
+
+
+/* --- Dark Mode Additions --- */
+[data-theme="dark"] {
+    --sys-blue-dark: #93c5fd; 
+    --sys-blue-mid: #60a5fa;  
+    --sys-blue-light: #3b82f6;
+    --sys-blue-hover: #2563eb;
+    --bg-color: #0f172a;
+    --container-bg: #1e293b;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --border-color: #334155;
+    --input-bg: #0f172a;
+    --highlight-bg: rgba(59, 130, 246, 0.15);
+    --highlight-border: #3b82f6;
+}
+
+[data-theme="dark"] .btn-add { background-color: #2563eb; color: #ffffff; }
+[data-theme="dark"] .btn-add:hover { background-color: #1d4ed8; }
+[data-theme="dark"] .btn-link { background-color: #1e40af; }
+[data-theme="dark"] .btn-link:hover { background-color: #1d4ed8; }
+
+body, .container, input, select, .btn-clear, .btn-toggle-manage {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-theme-toggle {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    color: white;
+    border-radius: 20px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
