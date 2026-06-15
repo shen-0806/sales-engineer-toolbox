@@ -36,10 +36,15 @@ function runAllCalculations() {
     let volU = document.getElementById('volUnit').value;
     let cms = isNaN(vol) ? undefined : (volU === 'cmh' ? vol/3600 : volU === 'cms' ? vol : volU === 'lps' ? vol/1000 : vol * 0.000471947);
     
-    // Terminal Airflow
-    let volTerm = parseFloat(document.getElementById('calcVolTerm').value.replace(/,/g, ''));
-    let volTermU = document.getElementById('volUnitTerm').value;
-    let cmsTerm = isNaN(volTerm) ? undefined : (volTermU === 'cmh' ? volTerm/3600 : volTermU === 'cms' ? volTerm : volTermU === 'lps' ? volTerm/1000 : volTerm * 0.000471947);
+    // Grille Airflow
+    let volGrille = parseFloat(document.getElementById('calcVolGrille').value.replace(/,/g, ''));
+    let volGrilleU = document.getElementById('volUnitGrille').value;
+    let cmsGrille = isNaN(volGrille) ? undefined : (volGrilleU === 'cmh' ? volGrille/3600 : volGrilleU === 'cms' ? volGrille : volGrilleU === 'lps' ? volGrille/1000 : volGrille * 0.000471947);
+
+    // Louvre Airflow
+    let volLouvre = parseFloat(document.getElementById('calcVolLouvre').value.replace(/,/g, ''));
+    let volLouvreU = document.getElementById('volUnitLouvre').value;
+    let cmsLouvre = isNaN(volLouvre) ? undefined : (volLouvreU === 'cmh' ? volLouvre/3600 : volLouvreU === 'cms' ? volLouvre : volLouvreU === 'lps' ? volLouvre/1000 : volLouvre * 0.000471947);
 
     // Duct Calc
     if (!isNaN(w) && !isNaN(h) && w>0 && h>0) {
@@ -57,8 +62,8 @@ function runAllCalculations() {
     let gFA = parseFloat(document.getElementById('grilleFA').value);
     document.getElementById('grilleVolOut').value = ''; document.getElementById('grilleVelOut').value = '';
     
-    if (cmsTerm !== undefined && !isNaN(qty) && qty > 0) {
-        let gCMS = cmsTerm/qty;
+    if (cmsGrille !== undefined && !isNaN(qty) && qty > 0) {
+        let gCMS = cmsGrille/qty;
         let gVolU = document.getElementById('grilleVolUnit').value;
         document.getElementById('grilleVolOut').value = (gVolU === 'cmh' ? gCMS*3600 : gVolU==='cms' ? gCMS : gVolU === 'lps' ? gCMS*1000 : gCMS/0.000471947).toLocaleString('en-US', {maximumFractionDigits: getDec(gVolU)});
         if (!isNaN(gW) && !isNaN(gH) && !isNaN(gFA) && gFA > 0) {
@@ -71,14 +76,14 @@ function runAllCalculations() {
     // Louvre Calc
     let lW = parseFloat(document.getElementById('louvreW').value.replace(/,/g, '')), lH = parseFloat(document.getElementById('louvreH').value.replace(/,/g, '')), lFA = parseFloat(document.getElementById('louvreFA').value);
     document.getElementById('louvreVelOut').value = '';
-    if (cmsTerm !== undefined && !isNaN(lW) && lW > 0 && !isNaN(lH) && lH > 0 && !isNaN(lFA) && lFA > 0) {
+    if (cmsLouvre !== undefined && !isNaN(lW) && lW > 0 && !isNaN(lH) && lH > 0 && !isNaN(lFA) && lFA > 0) {
         let lA = (document.getElementById('louvreUnitW').value === 'mm' ? lW/1000 : lW*0.0254) * (document.getElementById('louvreUnitH').value === 'mm' ? lH/1000 : lH*0.0254);
-        let lV = cmsTerm / (lA * (lFA/100)); let velU = document.getElementById('louvreVelUnit').value;
+        let lV = cmsLouvre / (lA * (lFA/100)); let velU = document.getElementById('louvreVelUnit').value;
         document.getElementById('louvreVelOut').value = (velU === 'ms' ? lV : lV*196.85).toLocaleString('en-US', {maximumFractionDigits: getDec(velU)});
     }
 }
 function clearCalculator() {
-    ['calcVol','calcVolTerm','calcWidth','calcHeight','calcResult','calcRatio','grilleW','grilleH','grilleVolOut','grilleVelOut','louvreW','louvreH','louvreVelOut'].forEach(id => document.getElementById(id).value='');
+    ['calcVol','calcVolGrille','calcVolLouvre','calcWidth','calcHeight','calcResult','calcRatio','grilleW','grilleH','grilleVolOut','grilleVelOut','louvreW','louvreH','louvreVelOut'].forEach(id => document.getElementById(id).value='');
     document.getElementById('grilleQty').value = '1'; document.getElementById('grilleFA').value = '50'; document.getElementById('louvreFA').value = '50';
 }
 
@@ -126,7 +131,7 @@ function calculateQVA() {
 function clearQVACalculator(){ ['qvaVol','qvaVel','qvaArea','qvaRectW','qvaRectH','qvaCircD'].forEach(id=>{let e=document.getElementById(id);if(e){e.value='';e.classList.remove('qva-highlight');}}); qvaHistory=[]; }
 
 // --- Custom Links ---
-const storageKey='systemairCompanyLinksV3'; let isManageMode=false, draggedElement=null;
+const storageKey='systemairCompanyLinksV2'; let isManageMode=false, draggedElement=null;
 
 // --- Initialization ---
 document.addEventListener("DOMContentLoaded", () => {
