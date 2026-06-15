@@ -104,8 +104,12 @@ function toggleQVAAreaInputs() {
     const m = document.getElementById('qvaAreaMethod').value;
     document.getElementById('qvaAreaRectWrapper').style.display = (m==='rectangle')?'flex':'none'; document.getElementById('qvaAreaCircWrapper').style.display = (m==='circle')?'block':'none';
     const a = document.getElementById('qvaArea');
-    if(m!=='direct'){ a.readOnly=true; a.style.backgroundColor='#e2e8f0'; a.style.color='var(--text-muted)'; calcAreaFromDims(); }
-    else { a.readOnly=false; a.style.backgroundColor='var(--input-bg)'; a.style.color='var(--text-main)'; }
+    if(m!=='direct'){ 
+        a.readOnly=true; // Replaced hardcoded inline styles to let CSS handle colors
+        calcAreaFromDims(); 
+    } else { 
+        a.readOnly=false; 
+    }
 }
 function calcAreaFromDims() {
     const m = document.getElementById('qvaAreaMethod').value; if(m==='direct') return;
