@@ -149,7 +149,7 @@ function loadLinks() {
     if(!links||links.length===0){ 
         links=[
             {"id":1,"name":"Systemair MY","url":"https://www.systemair.com/en-my"},
-            {"id":2,"name":"AXC Axial Fan","url":"https://configurator.systemair.com/syscon/projects"},
+            {"id":2,"name":"AXC Axial Fan","url":"https://www.systemair.com/en-my/products/fans/axial-fans"},
             {"id":3,"name":"AAW Axial Fans","url":"https://www.systemair.com/en-my/products/fans/axial-fans/aaw"},
             {"id":4,"name":"K A/AL Fan","url":"https://www.systemair.com/en-my/products/fans/duct-fans/circular-duct-fans"},
             {"id":5,"name":"CDRE/D","url":"https://www.systemair.com/en-my/products/fans/duct-fans/square-duct-fans/cdr"},
