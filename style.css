@@ -1,4 +1,6 @@
 :root {
+    color-scheme: light; /* Tells the browser native UI is in light mode */
+    
     /* Google Material Light Mode Palette */
     --bg-color: #f8f9fa;
     --container-bg: #ffffff;
@@ -24,6 +26,8 @@
 }
 
 [data-theme="dark"] {
+    color-scheme: dark; /* Tells the mobile browser to make dropdown arrows white */
+    
     /* Google Material / Incognito Dark Mode Palette */
     --bg-color: #202124;         
     --container-bg: #292a2d;     
@@ -130,12 +134,12 @@ body {
 }
 
 .main-title {
-    color: var(--systemair-blue); /* Updated to Systemair Brand Blue */
+    color: var(--systemair-blue);
     text-align: center; 
     margin-top: 0; 
     margin-bottom: 30px; 
     font-size: 2rem;
-    font-weight: 500; /* Made slightly thicker for Material Design */
+    font-weight: 500;
     letter-spacing: -0.5px;
 }
 
@@ -328,9 +332,7 @@ input[readonly] {
 .btn-clear:hover { background-color: var(--highlight-bg); color: var(--sys-blue-light); }
 .clear-container { display: flex; justify-content: flex-end; width: 100%; }
 
-/* --- EXPLICIT DARK MODE OVERRIDES --- 
-   Ensures Dark Mode stays 100% exactly the same as before 
-*/
+/* --- EXPLICIT DARK MODE OVERRIDES --- */
 [data-theme="dark"] .main-title { color: #e8eaed; }
 [data-theme="dark"] .btn-link { 
     background-color: #3c4043; 
