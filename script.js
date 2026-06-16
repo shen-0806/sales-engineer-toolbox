@@ -7,7 +7,7 @@ window.scrollTo(0, 0);
 // Formatting Helpers
 const decMap = { cmh:0, cms:4, lps:1, cfm:0, cfh:0, pa:1, kpa:3, inwg:3, mmwg:1, mbar:2, psi:3, ms:2, fpm:0 };
 function getDec(u) { const m = {cmh:0, cms:4, lps:1, cfm:0, sqm:3, sqft:2, ms:2, fpm:0, mm:0, inch:2}; return m[u] !== undefined ? m[u] : 2; }
-function copyValue(id, btn) { const el = document.getElementById(id); if(!el.value) return; navigator.clipboard.writeText(el.value.replace(/,/g, '')); btn.innerText = '✅'; setTimeout(() => btn.innerText = '📋', 1200); }
+function copyValue(id, btn) { const el = document.getElementById(id); if(!el.value) return; navigator.clipboard.writeText(el.value.replace(/,/g, '')); btn.innerText = 'check'; setTimeout(() => btn.innerText = 'content_copy', 1200); }
 function formatActive(id) { const el=document.getElementById(id), v=el.value.replace(/,/g,''); if(v!==''&&!isNaN(v)) el.value=parseFloat(v).toLocaleString('en-US',{maximumFractionDigits:decMap[id]}); }
 function syncDimUnits(s,t){ document.getElementById(t).value=document.getElementById(s).value; }
 
@@ -29,24 +29,20 @@ function clearGroup(factors){ Object.keys(factors).forEach(k => document.getElem
 
 // --- Core Duct/Velocity Calculations ---
 function runAllCalculations() {
-    // Duct Airflow
     let vol = parseFloat(document.getElementById('calcVol').value.replace(/,/g, ''));
     let w = parseFloat(document.getElementById('calcWidth').value.replace(/,/g, ''));
     let h = parseFloat(document.getElementById('calcHeight').value.replace(/,/g, ''));
     let volU = document.getElementById('volUnit').value;
     let cms = isNaN(vol) ? undefined : (volU === 'cmh' ? vol/3600 : volU === 'cms' ? vol : volU === 'lps' ? vol/1000 : vol * 0.000471947);
     
-    // Grille Airflow
     let volGrille = parseFloat(document.getElementById('calcVolGrille').value.replace(/,/g, ''));
     let volGrilleU = document.getElementById('volUnitGrille').value;
     let cmsGrille = isNaN(volGrille) ? undefined : (volGrilleU === 'cmh' ? volGrille/3600 : volGrilleU === 'cms' ? volGrille : volGrilleU === 'lps' ? volGrille/1000 : volGrille * 0.000471947);
 
-    // Louvre Airflow
     let volLouvre = parseFloat(document.getElementById('calcVolLouvre').value.replace(/,/g, ''));
     let volLouvreU = document.getElementById('volUnitLouvre').value;
     let cmsLouvre = isNaN(volLouvre) ? undefined : (volLouvreU === 'cmh' ? volLouvre/3600 : volLouvreU === 'cms' ? volLouvre : volLouvreU === 'lps' ? volLouvre/1000 : volLouvre * 0.000471947);
 
-    // Duct Calc
     if (!isNaN(w) && !isNaN(h) && w>0 && h>0) {
         let max = Math.max(w,h), min = Math.min(w,h); document.getElementById('calcRatio').value = (max/min).toFixed(2) + ' : 1';
         let area = (document.getElementById('dimUnitW').value === 'mm' ? w/1000 : w*0.0254) * (document.getElementById('dimUnitH').value === 'mm' ? h/1000 : h*0.0254);
@@ -56,7 +52,6 @@ function runAllCalculations() {
         } else document.getElementById('calcResult').value = '';
     } else { document.getElementById('calcRatio').value = ''; document.getElementById('calcResult').value = ''; }
 
-    // Grille Calc
     let qty = parseFloat(document.getElementById('grilleQty').value);
     let gW = parseFloat(document.getElementById('grilleW').value.replace(/,/g, '')), gH = parseFloat(document.getElementById('grilleH').value.replace(/,/g, ''));
     let gFA = parseFloat(document.getElementById('grilleFA').value);
@@ -73,7 +68,6 @@ function runAllCalculations() {
         }
     }
 
-    // Louvre Calc
     let lW = parseFloat(document.getElementById('louvreW').value.replace(/,/g, '')), lH = parseFloat(document.getElementById('louvreH').value.replace(/,/g, '')), lFA = parseFloat(document.getElementById('louvreFA').value);
     document.getElementById('louvreVelOut').value = '';
     if (cmsLouvre !== undefined && !isNaN(lW) && lW > 0 && !isNaN(lH) && lH > 0 && !isNaN(lFA) && lFA > 0) {
@@ -105,7 +99,7 @@ function toggleQVAAreaInputs() {
     document.getElementById('qvaAreaRectWrapper').style.display = (m==='rectangle')?'flex':'none'; document.getElementById('qvaAreaCircWrapper').style.display = (m==='circle')?'block':'none';
     const a = document.getElementById('qvaArea');
     if(m!=='direct'){ 
-        a.readOnly=true; // Replaced hardcoded inline styles to let CSS handle colors
+        a.readOnly=true; 
         calcAreaFromDims(); 
     } else { 
         a.readOnly=false; 
@@ -149,15 +143,24 @@ const storageKey='UsefulLinksV1'; let isManageMode=false, draggedElement=null;
 
 // --- Initialization ---
 document.addEventListener("DOMContentLoaded", () => {
-    initTheme(); // Initialize Dark/Light Mode
+    initTheme(); 
     loadLinks();
-    toggleQVAAreaInputs(); // Ensures Rectangle inputs show immediately on load
+    toggleQVAAreaInputs(); 
 });
 
 function toggleManageMode() {
     isManageMode = !isManageMode; const c=document.getElementById('linksContainer'), t=document.getElementById('manageToggle'), i=c.querySelectorAll('.link-item');
-    if(isManageMode){ c.classList.add('manage-mode'); t.classList.add('active'); t.innerText="Done Editing"; i.forEach(x=>x.draggable=true); }
-    else{ c.classList.remove('manage-mode'); t.classList.remove('active'); t.innerText="⚙️ Manage"; i.forEach(x=>x.draggable=false); }
+    if(isManageMode){ 
+        c.classList.add('manage-mode'); 
+        t.classList.add('active'); 
+        t.innerHTML='<span class="material-symbols-outlined" style="font-size:18px; margin-right:6px;">done</span> Done Editing'; 
+        i.forEach(x=>x.draggable=true); 
+    } else { 
+        c.classList.remove('manage-mode'); 
+        t.classList.remove('active'); 
+        t.innerHTML='<span class="material-symbols-outlined" style="font-size:18px; margin-right:6px;">settings</span> Manage'; 
+        i.forEach(x=>x.draggable=false); 
+    }
 }
 function loadLinks() {
     let links=JSON.parse(localStorage.getItem(storageKey));
@@ -187,8 +190,8 @@ function renderAllLinks(linksArray) {
         const div=document.createElement('div'); div.className='link-item'; div.id='link-'+l.id; div.draggable=isManageMode;
         const a=document.createElement('a'); a.href=l.url; a.target="_blank"; a.className="btn btn-link"; a.textContent=l.name;
         const b=document.createElement('div'); b.className='action-badges';
-        const eb=document.createElement('button'); eb.className='badge-btn edit-badge'; eb.innerHTML='✏️'; eb.onclick=()=>editLink(l.id);
-        const db=document.createElement('button'); db.className='badge-btn del-badge'; db.innerHTML='❌'; db.onclick=()=>removeLink(l.id);
+        const eb=document.createElement('button'); eb.className='badge-btn edit-badge material-symbols-outlined'; eb.innerHTML='edit'; eb.onclick=()=>editLink(l.id);
+        const db=document.createElement('button'); db.className='badge-btn del-badge material-symbols-outlined'; db.innerHTML='delete'; db.onclick=()=>removeLink(l.id);
         b.appendChild(eb); b.appendChild(db); div.appendChild(a); div.appendChild(b);
         div.addEventListener('dragstart',e=>{if(!isManageMode)return; draggedElement=div; setTimeout(()=>div.classList.add('dragging'),0);});
         div.addEventListener('dragend',e=>{if(!isManageMode)return; div.classList.remove('dragging'); draggedElement=null; saveNewOrder();});
@@ -226,6 +229,6 @@ function toggleTheme() {
 function updateThemeButton(theme) {
     const btn = document.getElementById('themeToggle');
     if (btn) {
-        btn.innerText = theme === 'dark' ? '☀️' : '🌙';
+        btn.innerHTML = theme === 'dark' ? 'light_mode' : 'dark_mode';
     }
 }

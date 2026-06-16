@@ -1,49 +1,51 @@
 :root {
-    /* Standard Light Mode Palette */
-    --sys-blue-dark: #002543;
-    --sys-blue-mid: #003a6b;
-    --sys-blue-light: #004985;
-    --sys-blue-hover: #005a9e;
-    --bg-color: #f1f5f9;
-    --container-bg: #FFFFFF;
-    --text-main: #1e293b;
-    --text-muted: #64748b;
-    --border-color: #cbd5e1;
+    /* Google Material Light Mode Palette */
+    --bg-color: #f8f9fa;
+    --container-bg: #ffffff;
+    --text-main: #202124;
+    --text-muted: #5f6368;
+    --border-color: #dadce0;
     --input-bg: #ffffff;
-    --highlight-bg: #e0e7ff;
-    --highlight-border: #a5b4fc;
-    --nav-bg: #1e293b; 
+    
+    --sys-blue-light: #1a73e8; /* Standard Google Blue */
+    --sys-blue-dark: #174ea6;
+    --sys-blue-hover: #1b66c9;
+    --nav-bg: #ffffff;
+    
+    --readonly-bg: #e8eaed;
+    --readonly-text: #5f6368;
+    --highlight-bg: #e8f0fe;
+    --highlight-border: #1a73e8;
 }
 
 [data-theme="dark"] {
-    /* Google / Incognito Dark Mode Palette */
-    --bg-color: #202124;         /* True Google Dark background */
-    --container-bg: #292a2d;     /* Slightly lighter card background */
-    --text-main: #e8eaed;        /* Crisp, readable off-white */
-    --text-muted: #9aa0a6;       /* Google's standard muted grey */
-    --border-color: #5f6368;     /* Clean, visible border grey */
-    --input-bg: #202124;         /* Inputs match background */
+    /* Google Material / Incognito Dark Mode Palette */
+    --bg-color: #202124;         
+    --container-bg: #292a2d;     
+    --text-main: #e8eaed;        
+    --text-muted: #9aa0a6;       
+    --border-color: #5f6368;     
+    --input-bg: #202124;         
     
-    /* Calculated/Restricted Result Styling */
-    --highlight-bg: #3c4043;     /* Professional dark grey highlight */
-    --highlight-border: #8ab4f8; /* Classic Google Blue accent for results */
-
-    /* Re-mapping Blue Accents to Neutral/Google Blue */
-    --sys-blue-dark: #e8eaed;    /* Maps dark text to white */
-    --sys-blue-mid: #8ab4f8;     /* Google Blue */
-    --sys-blue-light: #8ab4f8;   /* Google Blue */
-    --sys-blue-hover: #aecbfa;   /* Lighter blue for hovers */
-    --nav-bg: #202124;           /* Navbar blends smoothly with background */
+    --sys-blue-light: #8ab4f8;   
+    --sys-blue-dark: #e8eaed;    
+    --sys-blue-hover: #aecbfa;   
+    --nav-bg: #292a2d;           
+    
+    --readonly-bg: #111827; 
+    --readonly-text: #9aa0a6; 
+    --highlight-bg: rgba(138, 180, 248, 0.12);
+    --highlight-border: #8ab4f8; 
 }
 
-/* Smooth scrolling for anchor links */
+/* Base Styles & Typography */
 html { 
     scroll-behavior: smooth; 
     scroll-padding-top: 85px; 
 }
 
 body { 
-    font-family: 'Segoe UI', system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif; 
+    font-family: 'Roboto', system-ui, -apple-system, sans-serif; 
     background-color: var(--bg-color); 
     color: var(--text-main); 
     margin: 0; 
@@ -52,7 +54,25 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* --- Sticky Navigation Bar --- */
+/* Enforce Material Icons Rendering */
+.material-symbols-outlined {
+    font-family: 'Material Symbols Outlined' !important;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+    vertical-align: middle;
+}
+
+/* --- Sticky Navigation (App Bar) --- */
 .sticky-nav {
     position: fixed;
     top: 0;
@@ -62,36 +82,39 @@ body {
     z-index: 1000;
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 12px;
-    padding: 12px 20px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    padding: 10px 20px;
+    box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
     overflow-x: auto;
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
     box-sizing: border-box;
-    border-bottom: 1px solid var(--border-color);
 }
 
 .sticky-nav::-webkit-scrollbar { display: none; }
 
 .sticky-nav a {
-    color: #ffffff;
+    color: var(--text-muted);
     text-decoration: none;
     font-size: 0.9rem;
-    font-weight: 600;
+    font-weight: 500;
     padding: 8px 16px;
     border-radius: 20px;
-    background: rgba(255, 255, 255, 0.1);
     transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .sticky-nav a:hover {
-    background: var(--sys-blue-light);
-    color: #1e293b; /* Dark text on light blue hover in dark mode */
-    transform: translateY(-1px);
+    background-color: var(--highlight-bg);
+    color: var(--sys-blue-light);
 }
 
-/* Main content wrapper */
+.nav-icon { font-size: 18px; }
+
+/* Main content */
 .main-wrapper {
     padding: 90px 20px 40px; 
     display: flex;
@@ -101,16 +124,25 @@ body {
     box-sizing: border-box;
 }
 
-/* Core Section Container */
+.main-title {
+    color: var(--sys-blue-dark); 
+    text-align: center; 
+    margin-top: 0; 
+    margin-bottom: 30px; 
+    font-size: 2rem;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+}
+
+/* Google Material Cards */
 .container { 
     background: var(--container-bg); 
     width: 100%; 
     max-width: 680px; 
-    padding: 35px; 
-    border-radius: 12px; 
-    box-shadow: 0 10px 30px rgba(0,0,0, 0.1); 
-    border-top: 6px solid var(--sys-blue-light); 
-    margin-bottom: 30px; 
+    padding: 24px 32px; 
+    border-radius: 8px; 
+    box-shadow: 0 1px 3px rgba(60,64,67,0.3), 0 1px 2px rgba(60,64,67,0.15);
+    margin-bottom: 24px; 
     box-sizing: border-box; 
     transition: background-color 0.3s ease;
 }
@@ -119,166 +151,220 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 25px;
-    border-bottom: 2px solid var(--border-color);
-    padding-bottom: 15px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px;
 }
 
 .section-title {
     margin: 0;
-    font-size: 1.35rem;
-    color: var(--sys-blue-dark);
-    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--text-main);
+    font-weight: 500;
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-h3 { color: var(--sys-blue-dark); font-size: 1.15rem; margin-bottom: 15px; font-weight: 600; margin-top: 0; }
-h4 { color: var(--sys-blue-mid); margin: 0 0 10px 0; font-size: 1rem; }
+.section-subtitle {
+    font-size: 0.85rem; 
+    color: var(--text-muted); 
+    margin-bottom: 24px; 
+    margin-top: -8px;
+}
 
-.converter-section { margin-bottom: 35px; padding-bottom: 25px; border-bottom: 1px dashed var(--border-color); }
+h3 { color: var(--text-main); font-size: 1.1rem; margin-bottom: 15px; font-weight: 500; margin-top: 0; }
+h4 { color: var(--text-muted); margin: 0 0 12px 0; font-size: 0.95rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;}
+
+.converter-section { margin-bottom: 35px; padding-bottom: 25px; border-bottom: 1px solid var(--border-color); }
 .converter-section:last-of-type { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
-.section-header { border-bottom: 2px solid var(--border-color); padding-bottom: 10px; margin-bottom: 20px; color: var(--sys-blue-mid); }
+.section-header { border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 20px; color: var(--text-muted); font-weight: 500;}
+.section-divider { border-top: 1px solid var(--border-color); padding-top:20px; margin-top:5px; }
 
-.unit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
-.calc-layout-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.unit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
+.calc-layout-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .span-full { grid-column: 1 / -1; }
 
 @media (max-width: 600px) { 
     .calc-layout-grid { grid-template-columns: 1fr; } 
     .sticky-nav { justify-content: flex-start; } 
-    .sticky-nav a { font-size: 0.85rem; padding: 6px 12px; }
-    .container { padding: 25px 15px; }
-    .section-title { font-size: 1.2rem; }
+    .container { padding: 20px 16px; }
 }
 
+/* Material Inputs */
 .input-wrapper { position: relative; display: flex; flex-direction: column; }
-.input-wrapper label { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; }
+.input-wrapper label { font-size: 0.8rem; font-weight: 500; color: var(--text-muted); margin-bottom: 6px; }
 .input-wrapper:focus-within label { color: var(--sys-blue-light); }
 
-/* Standard Inputs */
+/* FIXED: Removed 'select' from this global block so dropdowns stay small */
 input[type="text"], input[type="number"] { 
     width: 100%; 
-    padding: 12px 75px 12px 14px; 
+    padding: 10px 90px 10px 12px; /* Kept wide padding on the right for the dropdown & copy button */
     border: 1px solid var(--border-color); 
-    border-radius: 6px; 
+    border-radius: 4px; 
     font-size: 1rem; 
     box-sizing: border-box; 
     background-color: var(--input-bg); 
     color: var(--text-main);
-    font-weight: 500; 
+    font-weight: 400; 
+    outline: none;
     transition: all 0.2s ease;
 }
-.input-with-select { padding-right: 110px; }
+
+/* Focus State matching Google Outlined Text Fields */
 input[type="text"]:focus, input[type="number"]:focus { 
-    outline: none; 
     border-color: var(--sys-blue-light); 
-    box-shadow: 0 0 0 3px rgba(138, 180, 248, 0.15); 
+    box-shadow: inset 0 0 0 1px var(--sys-blue-light); 
 }
 
-/* Restricted / Read-Only Inputs (Highlights them identical to Flow Rate calc results) */
+/* Restricted / Read-Only */
 input[readonly] { 
-    background-color: var(--highlight-bg) !important; 
-    border-color: var(--highlight-border) !important; 
+    background-color: var(--readonly-bg) !important; 
+    border-color: transparent !important; 
     color: var(--sys-blue-dark) !important; 
-    font-weight: 700 !important; 
+    font-weight: 500 !important; 
     cursor: not-allowed;
 }
 
-/* Dynamically Highlighted Results (QVA Flowrate area) */
+/* Dynamically Highlighted Results */
 .qva-highlight { 
     background-color: var(--highlight-bg) !important; 
     border-color: var(--highlight-border) !important; 
     color: var(--sys-blue-dark) !important; 
-    font-weight: 700 !important;
+    font-weight: 500 !important;
 }
 
-/* The Select Dropdowns */
-.unit-select { position: absolute; right: 38px; top: 36px; border: none; background: transparent; cursor: pointer; font-size: 0.85rem; font-weight: 700; color: var(--sys-blue-mid); outline: none;}
-.unit-select:hover, .unit-select:focus { background-color: var(--highlight-bg); color: var(--sys-blue-dark); border-radius: 4px;}
-.no-label-group .unit-select { top: 12px; }
+/* FIXED: Dropdowns / Adornments */
+.unit-select { 
+    position: absolute; 
+    right: 40px; 
+    top: 31px; 
+    width: auto; /* Forces it to perfectly wrap the text instead of expanding 100% */
+    border: none; 
+    background: transparent; 
+    cursor: pointer; 
+    font-size: 0.85rem; 
+    font-weight: 500; 
+    color: var(--text-muted); 
+    outline: none;
+    padding: 4px 6px;
+}
+.unit-select:hover, .unit-select:focus { background-color: var(--highlight-bg); color: var(--sys-blue-light); border-radius: 4px;}
+.no-label-group .unit-select { top: 7px; }
 
-/* The specific Area Method dropdown */
 #qvaAreaMethod {
-    background-color: var(--input-bg);
-    color: var(--text-main);
-    border-color: var(--border-color);
+    background-color: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
     padding: 2px 6px;
     border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    width: auto; /* Ensures it stays tight to the text */
 }
 
-.copy-btn { position: absolute; right: 6px; top: 32px; background: none; border: none; cursor: pointer; font-size: 1.1rem; opacity: 0.5; padding: 6px; display: flex; align-items: center; justify-content: center; transition: all 0.2s;}
-.copy-btn:hover { opacity: 1; background-color: var(--highlight-bg); color: var(--sys-blue-dark); border-radius: 6px;}
+/* Icon Buttons */
+.copy-btn { 
+    position: absolute; 
+    right: 6px; 
+    top: 28px; 
+    background: none; 
+    border: none; 
+    cursor: pointer; 
+    color: var(--text-muted); 
+    padding: 6px; 
+    border-radius: 50%;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    transition: all 0.2s;
+}
+.copy-btn:hover { background-color: var(--highlight-bg); color: var(--sys-blue-light); }
 .copy-btn:active { transform: scale(0.9); }
-.no-label-group .copy-btn { top: 8px; }
+.no-label-group .copy-btn { top: 5px; }
 
-/* Buttons */
-.btn { display: inline-flex; align-items: center; justify-content: center; padding: 10px 16px; border-radius: 6px; font-size: 0.9rem; font-weight: 600; cursor: pointer; border: none; text-decoration: none; transition: all 0.2s ease;}
+/* Primary Buttons (Add / Manage / Clear) */
+.btn { 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    padding: 8px 16px; 
+    border-radius: 20px; /* Material Pill shape */
+    font-size: 0.9rem; 
+    font-weight: 500; 
+    cursor: pointer; 
+    border: none; 
+    text-decoration: none; 
+    transition: all 0.2s ease;
+    letter-spacing: 0.25px;
+}
 
-.btn-link { background-color: var(--sys-blue-light); color: #FFFFFF; width: 100%; box-sizing: border-box; box-shadow: 0 2px 4px rgba(0,0,0, 0.1); }
-.btn-link:hover { background-color: var(--sys-blue-hover); transform: translateY(-1px); box-shadow: 0 4px 10px rgba(0,0,0, 0.2); }
+/* Useful Links Chips */
+.btn-link { 
+    background-color: transparent; 
+    color: var(--sys-blue-light); 
+    width: 100%; 
+    box-sizing: border-box; 
+    border: 1px solid var(--border-color);
+}
+.btn-link:hover { 
+    background-color: var(--highlight-bg); 
+}
 
-.btn-add { background-color: var(--sys-blue-dark); color: #FFFFFF; width: 100%; }
-.btn-add:hover { background-color: var(--sys-blue-mid); }
+.btn-add { background-color: var(--sys-blue-light); color: #FFFFFF; width: 100%; box-shadow: 0 1px 2px rgba(0,0,0,0.2);}
+.btn-add:hover { background-color: var(--sys-blue-hover); box-shadow: 0 1px 3px rgba(0,0,0,0.3);}
 
-.btn-toggle-manage { background-color: transparent; color: var(--sys-blue-light); border: 2px solid var(--sys-blue-light); padding: 6px 14px; font-size: 0.85rem; border-radius: 20px; }
-.btn-toggle-manage.active { background-color: var(--sys-blue-light); color: #FFFFFF; }
+.btn-toggle-manage { background-color: transparent; color: var(--sys-blue-light); border: 1px solid var(--border-color); }
+.btn-toggle-manage:hover { background-color: var(--highlight-bg); border-color: var(--sys-blue-light); }
+.btn-toggle-manage.active { background-color: var(--sys-blue-light); color: #FFFFFF; border-color: var(--sys-blue-light); }
 
-.btn-clear { background-color: var(--input-bg); color: var(--text-muted); border: 1px solid var(--border-color); padding: 6px 16px; font-size: 0.85rem; margin-top: 20px; border-radius: 20px; transition: all 0.2s;}
-.btn-clear:hover { background-color: var(--highlight-bg); color: var(--text-main); border-color: var(--highlight-border); }
+.btn-clear { background-color: transparent; color: var(--text-muted); padding: 8px 16px; margin-top: 16px; }
+.btn-clear:hover { background-color: var(--highlight-bg); color: var(--sys-blue-light); }
 .clear-container { display: flex; justify-content: flex-end; width: 100%; }
 
-/* Specific Dark Mode Button Overrides for Google Style */
-[data-theme="dark"] .btn-link { 
-    background-color: #3c4043; 
-    color: #8ab4f8; 
-    border: 1px solid #5f6368;
-    box-shadow: none;
-}
-[data-theme="dark"] .btn-link:hover { 
-    background-color: #4a4d51; 
-    border-color: #8ab4f8;
-}
-[data-theme="dark"] .btn-add { 
-    background-color: #8ab4f8; 
-    color: #202124; 
-}
-[data-theme="dark"] .btn-add:hover { 
-    background-color: #aecbfa; 
-}
-[data-theme="dark"] .sticky-nav a:hover {
-    color: #202124;
-}
+/* Dark Mode Overrides for buttons */
+[data-theme="dark"] .btn-link { border-color: var(--border-color); }
+[data-theme="dark"] .btn-add { background-color: var(--sys-blue-light); color: var(--bg-color); }
+[data-theme="dark"] .btn-add:hover { background-color: var(--sys-blue-hover); }
 
 /* Management Styles */
-.links-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; margin-bottom: 25px; }
+.links-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-bottom: 24px; }
 .link-item { position: relative; display: flex; width: 100%; transition: transform 0.2s;}
 .action-badges { display: none; position: absolute; top: -10px; right: -10px; gap: 4px; z-index: 10; }
-.badge-btn { width: 26px; height: 26px; border-radius: 50%; border: 2px solid white; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 11px; color: white; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: transform 0.1s;}
+.badge-btn { width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; transition: transform 0.1s; font-size: 14px;}
 .badge-btn:hover { transform: scale(1.1); }
-.edit-badge { background-color: var(--sys-blue-mid); }
-.del-badge { background-color: #ef4444; border-color: #ef4444; } 
+.edit-badge { background-color: var(--sys-blue-light); }
+.del-badge { background-color: #ea4335; border-color: #ea4335; } 
 .manage-mode .action-badges { display: flex; }
 .manage-mode .link-item { cursor: grab; }
-.manage-mode .btn-link { background-color: var(--highlight-bg); color: var(--text-muted); border: 1px dashed var(--text-muted); pointer-events: none; box-shadow: none; }
+.manage-mode .btn-link { background-color: var(--highlight-bg); color: var(--text-muted); border: 1px dashed var(--text-muted); pointer-events: none; }
 .link-item.dragging { opacity: 0.4; transform: scale(0.95); }
 
 /* Theme Toggle Button */
 .btn-theme-toggle {
-    background: rgba(255, 255, 255, 0.15);
+    background: transparent;
     border: none;
-    color: white;
-    border-radius: 20px;
-    padding: 8px 12px;
+    color: var(--text-muted);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
     cursor: pointer;
-    font-size: 0.9rem;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 .btn-theme-toggle:hover {
-    background: rgba(255, 255, 255, 0.25);
-    transform: translateY(-1px);
+    background: var(--highlight-bg);
+    color: var(--sys-blue-light);
+}
+
+/* Ensure ALL dropdown contents inherit proper background colors in Dark Mode */
+[data-theme="dark"] select option {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+}
+[data-theme="dark"] #qvaAreaMethod {
+    background-color: var(--input-bg);
+    border-color: var(--border-color);
 }
