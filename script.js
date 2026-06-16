@@ -164,7 +164,7 @@ function loadLinks() {
     if(!links||links.length===0){ 
         links=[
             {"id":1,"name":"Systemair (MY)","url":"https://www.systemair.com/en-my"},
-            {"id":2,"name":"Systemair (Glob)","url":"https://www.systemair.com/en"},
+            {"id":2,"name":"Systemair (GL)","url":"https://www.systemair.com/en"},
             {"id":3,"name":"AAW","url":"https://www.systemair.com/en-my/products/fans/axial-fans/aaw"},
             {"id":4,"name":"K A/AL Fan","url":"https://www.systemair.com/en-my/products/fans/duct-fans/circular-duct-fans/k"},
             {"id":5,"name":"CDRE/D","url":"https://www.systemair.com/en-my/products/fans/duct-fans/square-duct-fans/cdr"},
