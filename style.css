@@ -7,7 +7,7 @@
     --border-color: #dadce0;
     --input-bg: #ffffff;
     
-    --sys-blue-light: #1a73e8; /* Standard Google Blue */
+    --sys-blue-light: #1a73e8; /* Standard Google Blue for Inputs */
     --sys-blue-dark: #174ea6;
     --sys-blue-hover: #1b66c9;
     --nav-bg: #ffffff;
@@ -16,6 +16,11 @@
     --readonly-text: #5f6368;
     --highlight-bg: #e8f0fe;
     --highlight-border: #1a73e8;
+    
+    /* SYSTEMAIR BRAND COLORS (Light Mode Only) */
+    --systemair-blue: #00508F; /* Official Systemair Deep Blue */
+    --systemair-blue-hover: #003c6c; 
+    --systemair-bg-hover: #f0f5fa; /* Soft Material Design hover tint */
 }
 
 [data-theme="dark"] {
@@ -125,12 +130,12 @@ body {
 }
 
 .main-title {
-    color: var(--sys-blue-dark); 
+    color: var(--systemair-blue); /* Updated to Systemair Brand Blue */
     text-align: center; 
     margin-top: 0; 
     margin-bottom: 30px; 
     font-size: 2rem;
-    font-weight: 400;
+    font-weight: 500; /* Made slightly thicker for Material Design */
     letter-spacing: -0.5px;
 }
 
@@ -196,10 +201,9 @@ h4 { color: var(--text-muted); margin: 0 0 12px 0; font-size: 0.95rem; font-weig
 .input-wrapper label { font-size: 0.8rem; font-weight: 500; color: var(--text-muted); margin-bottom: 6px; }
 .input-wrapper:focus-within label { color: var(--sys-blue-light); }
 
-/* FIXED: Removed 'select' from this global block so dropdowns stay small */
 input[type="text"], input[type="number"] { 
     width: 100%; 
-    padding: 10px 90px 10px 12px; /* Kept wide padding on the right for the dropdown & copy button */
+    padding: 10px 90px 10px 12px; 
     border: 1px solid var(--border-color); 
     border-radius: 4px; 
     font-size: 1rem; 
@@ -210,6 +214,7 @@ input[type="text"], input[type="number"] {
     outline: none;
     transition: all 0.2s ease;
 }
+.input-with-select { padding-right: 110px; }
 
 /* Focus State matching Google Outlined Text Fields */
 input[type="text"]:focus, input[type="number"]:focus { 
@@ -234,12 +239,12 @@ input[readonly] {
     font-weight: 500 !important;
 }
 
-/* FIXED: Dropdowns / Adornments */
+/* Dropdowns / Adornments */
 .unit-select { 
     position: absolute; 
     right: 40px; 
     top: 31px; 
-    width: auto; /* Forces it to perfectly wrap the text instead of expanding 100% */
+    width: auto; 
     border: none; 
     background: transparent; 
     cursor: pointer; 
@@ -260,7 +265,7 @@ input[readonly] {
     border-radius: 4px;
     font-size: 0.8rem;
     font-weight: 500;
-    width: auto; /* Ensures it stays tight to the text */
+    width: auto; 
 }
 
 /* Icon Buttons */
@@ -289,7 +294,7 @@ input[readonly] {
     align-items: center; 
     justify-content: center; 
     padding: 8px 16px; 
-    border-radius: 20px; /* Material Pill shape */
+    border-radius: 20px; 
     font-size: 0.9rem; 
     font-weight: 500; 
     cursor: pointer; 
@@ -299,33 +304,65 @@ input[readonly] {
     letter-spacing: 0.25px;
 }
 
-/* Useful Links Chips */
+/* Useful Links Chips - Systemair Brand Colors applied */
 .btn-link { 
     background-color: transparent; 
-    color: var(--sys-blue-light); 
+    color: var(--systemair-blue); 
     width: 100%; 
     box-sizing: border-box; 
     border: 1px solid var(--border-color);
 }
 .btn-link:hover { 
-    background-color: var(--highlight-bg); 
+    background-color: var(--systemair-bg-hover); 
+    border-color: var(--systemair-blue);
 }
 
-.btn-add { background-color: var(--sys-blue-light); color: #FFFFFF; width: 100%; box-shadow: 0 1px 2px rgba(0,0,0,0.2);}
-.btn-add:hover { background-color: var(--sys-blue-hover); box-shadow: 0 1px 3px rgba(0,0,0,0.3);}
+.btn-add { background-color: var(--systemair-blue); color: #FFFFFF; width: 100%; box-shadow: 0 1px 2px rgba(0,0,0,0.2);}
+.btn-add:hover { background-color: var(--systemair-blue-hover); box-shadow: 0 1px 3px rgba(0,0,0,0.3);}
 
-.btn-toggle-manage { background-color: transparent; color: var(--sys-blue-light); border: 1px solid var(--border-color); }
-.btn-toggle-manage:hover { background-color: var(--highlight-bg); border-color: var(--sys-blue-light); }
-.btn-toggle-manage.active { background-color: var(--sys-blue-light); color: #FFFFFF; border-color: var(--sys-blue-light); }
+.btn-toggle-manage { background-color: transparent; color: var(--systemair-blue); border: 1px solid var(--border-color); }
+.btn-toggle-manage:hover { background-color: var(--systemair-bg-hover); border-color: var(--systemair-blue); }
+.btn-toggle-manage.active { background-color: var(--systemair-blue); color: #FFFFFF; border-color: var(--systemair-blue); }
 
 .btn-clear { background-color: transparent; color: var(--text-muted); padding: 8px 16px; margin-top: 16px; }
 .btn-clear:hover { background-color: var(--highlight-bg); color: var(--sys-blue-light); }
 .clear-container { display: flex; justify-content: flex-end; width: 100%; }
 
-/* Dark Mode Overrides for buttons */
-[data-theme="dark"] .btn-link { border-color: var(--border-color); }
-[data-theme="dark"] .btn-add { background-color: var(--sys-blue-light); color: var(--bg-color); }
-[data-theme="dark"] .btn-add:hover { background-color: var(--sys-blue-hover); }
+/* --- EXPLICIT DARK MODE OVERRIDES --- 
+   Ensures Dark Mode stays 100% exactly the same as before 
+*/
+[data-theme="dark"] .main-title { color: #e8eaed; }
+[data-theme="dark"] .btn-link { 
+    background-color: #3c4043; 
+    color: #8ab4f8; 
+    border: 1px solid #5f6368;
+    box-shadow: none;
+}
+[data-theme="dark"] .btn-link:hover { 
+    background-color: #4a4d51; 
+    border-color: #8ab4f8;
+}
+[data-theme="dark"] .btn-add { 
+    background-color: #8ab4f8; 
+    color: #202124; 
+}
+[data-theme="dark"] .btn-add:hover { 
+    background-color: #aecbfa; 
+}
+[data-theme="dark"] .btn-toggle-manage { 
+    background-color: transparent;
+    color: #8ab4f8; 
+    border-color: #5f6368; 
+}
+[data-theme="dark"] .btn-toggle-manage:hover { 
+    background-color: rgba(138, 180, 248, 0.12); 
+    border-color: #8ab4f8; 
+}
+[data-theme="dark"] .btn-toggle-manage.active { 
+    background-color: #8ab4f8; 
+    color: #202124; 
+    border-color: #8ab4f8; 
+}
 
 /* Management Styles */
 .links-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-bottom: 24px; }
