@@ -139,7 +139,7 @@ function calculateQVA() {
 function clearQVACalculator(){ ['qvaVol','qvaVel','qvaArea','qvaRectW','qvaRectH','qvaCircD'].forEach(id=>{let e=document.getElementById(id);if(e){e.value='';e.classList.remove('qva-highlight');}}); qvaHistory=[]; }
 
 // --- Custom Links ---
-const storageKey='UsefulLinksV1'; let isManageMode=false, draggedElement=null;
+const storageKey='UsefulLinksV2'; let isManageMode=false, draggedElement=null;
 
 // --- Initialization ---
 document.addEventListener("DOMContentLoaded", () => {
@@ -168,17 +168,20 @@ function loadLinks() {
         links=[
             {"id":1,"name":"Systemair (MY)","url":"https://www.systemair.com/en-my"},
             {"id":2,"name":"Systemair (GL)","url":"https://www.systemair.com/en"},
-            {"id":3,"name":"AAW","url":"https://www.systemair.com/en-my/products/fans/axial-fans/aaw"},
-            {"id":4,"name":"K A/AL Fan","url":"https://www.systemair.com/en-my/products/fans/duct-fans/circular-duct-fans/k"},
-            {"id":5,"name":"CDRE/D","url":"https://www.systemair.com/en-my/products/fans/duct-fans/square-duct-fans/cdr"},
-            {"id":6,"name":"MUB","url":"https://www.systemair.com/en-my/products/fans/duct-fans/insulated-duct-fans/mub/mub"},
-            {"id":7,"name":"MUB EX","url":"https://www.systemair.com/en/products/fans/duct-fans/insulated-duct-fans/mub/mub-ex"},
-            {"id":8,"name":"MUB T (MY)","url":"https://www.systemair.com/en-my/products/fans/duct-fans/insulated-duct-fans/mub/mub-t"},
-            {"id":9,"name":"MUB T (GL)","url":"https://www.systemair.com/en-my/products/fans/duct-fans/insulated-duct-fans/mub/mub-t"},
-            {"id":10,"name":"BKF","url":"https://www.systemair.com/en-my/products/fans/duct-fans/rectangular-duct-fans/bkf"},
-            {"id":11,"name":"AXC","url":"https://www.systemair.com/en-my/products/fans/axial-fans"},
-            {"id":12,"name":"PRF","url":"https://www.systemair.com/en/products/fans/centrifugal-fans/prf/prf"},
-            {"id":13,"name":"ASP/AWP","url":"https://www.systemair.com/en-my/products/selection-software/centrifugal-fans?ecom-category-id-MULTI=90101"}
+            {"id":3,"name":"VF BDT (MY)","url":"./VF_BDT_MY.pdf"},
+            {"id":4,"name":"VF BDT (GL)","url":"./VF_BDT_GL.pdf"},
+            {"id":5,"name":"VF APB","url":"./VF_APB.pdf"},
+            {"id":6,"name":"AAW","url":"https://www.systemair.com/en-my/products/fans/axial-fans/aaw"},
+            {"id":7,"name":"K A/AL Fan","url":"https://www.systemair.com/en-my/products/fans/duct-fans/circular-duct-fans/k"},
+            {"id":8,"name":"CDRE/D","url":"https://www.systemair.com/en-my/products/fans/duct-fans/square-duct-fans/cdr"},
+            {"id":9,"name":"MUB","url":"https://www.systemair.com/en-my/products/fans/duct-fans/insulated-duct-fans/mub/mub"},
+            {"id":10,"name":"MUB EX","url":"https://www.systemair.com/en/products/fans/duct-fans/insulated-duct-fans/mub/mub-ex"},
+            {"id":11,"name":"MUB T (MY)","url":"https://www.systemair.com/en-my/products/fans/duct-fans/insulated-duct-fans/mub/mub-t"},
+            {"id":12,"name":"MUB T (GL)","url":"https://www.systemair.com/en-my/products/fans/duct-fans/insulated-duct-fans/mub/mub-t"},
+            {"id":13,"name":"BKF","url":"https://www.systemair.com/en-my/products/fans/duct-fans/rectangular-duct-fans/bkf"},
+            {"id":14,"name":"AXC","url":"https://www.systemair.com/en-my/products/fans/axial-fans"},
+            {"id":15,"name":"PRF","url":"https://www.systemair.com/en/products/fans/centrifugal-fans/prf/prf"},
+            {"id":16,"name":"ASP/AWP","url":"https://www.systemair.com/en-my/products/selection-software/centrifugal-fans?ecom-category-id-MULTI=90101"}
         ]; 
         localStorage.setItem(storageKey,JSON.stringify(links)); 
     }
