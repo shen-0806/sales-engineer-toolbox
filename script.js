@@ -178,8 +178,12 @@ function loadLinks() {
             {"id":10,"name":"MUB T (GL)","url":"https://www.systemair.com/en-my/products/fans/duct-fans/insulated-duct-fans/mub/mub-t"},
             {"id":11,"name":"BKF","url":"https://www.systemair.com/en-my/products/fans/duct-fans/rectangular-duct-fans/bkf"},
             {"id":12,"name":"AXC","url":"https://www.systemair.com/en-my/products/fans/axial-fans"},
+            {"id":13,"name":"PRF(A)","url":"./PRF(A).pdf"},
             {"id":13,"name":"PRF","url":"https://www.systemair.com/en/products/fans/centrifugal-fans/prf/prf"},
-            {"id":14,"name":"ASP/AWP","url":"https://www.systemair.com/en-my/products/selection-software/centrifugal-fans?ecom-category-id-MULTI=90101"}
+            {"id":15,"name":"ASP/AWP","url":"https://www.systemair.com/en-my/products/selection-software/centrifugal-fans?ecom-category-id-MULTI=90101"}
+            {"id":15,"name":"K(EC)","url":"https://www.systemair.com/en/products/fans/duct-fans/circular-duct-fans/k"}
+            {"id":15,"name":"AW(EC)","url":"https://www.systemair.com/en/products/fans/axial-fans/aw?sku=448438"}
+            {"id":15,"name":"MUB(EC)","url":"https://www.systemair.com/en/products/fans/duct-fans/insulated-duct-fans/mub/mub"}
         ]; 
         localStorage.setItem(storageKey,JSON.stringify(links)); 
     }
