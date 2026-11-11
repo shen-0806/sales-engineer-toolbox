@@ -183,7 +183,7 @@ function loadLinks() {
             {"id":15,"name":"ASP/AWP","url":"https://www.systemair.com/en-my/products/selection-software/centrifugal-fans?ecom-category-id-MULTI=90101"},
             {"id":16,"name":"K(EC)","url":"https://www.systemair.com/en/products/fans/duct-fans/circular-duct-fans/k"},
             {"id":17,"name":"AW(EC)","url":"https://www.systemair.com/en/products/fans/axial-fans/aw?sku=448438"},
-            {"id":18,"name":"MUB(EC)","url":"https://www.systemair.com/en/products/fans/duct-fans/insulated-duct-fans/mub/mub"}
+            {"id":18,"name":"MUB(EC)","url":"https://www.systemair.com/en/products/fans/duct-fans/insulated-duct-fans/mub/mub"},
         ]; 
         localStorage.setItem(storageKey,JSON.stringify(links)); 
     }
